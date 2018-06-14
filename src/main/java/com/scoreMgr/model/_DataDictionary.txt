@@ -1,0 +1,98 @@
+Table: clazz
+------------+--------------+------+-----+---------------------+---------
+ Field      | Type         | Null | Key | Default             | Remarks 
+------------+--------------+------+-----+---------------------+---------
+ id         | INT(10)      | NO   | PRI |                     | 班级号     
+ name       | VARCHAR(50)  | NO   |     |                     | 班级名称    
+ grade      | INT(10)      | NO   |     |                     | 年级号     
+ major      | VARCHAR(20)  | NO   |     |                     | 所属专业    
+ num        | INT(10)      | NO   |     |                     | 班级号     
+ academy    | VARCHAR(20)  | NO   |     |                     | 所属学院    
+ createTime | DATETIME(19) | NO   |     | 0000-00-00 00:00:00 | 创建时间    
+------------+--------------+------+-----+---------------------+---------
+
+Table: course
+------------+--------------+------+-----+---------+---------
+ Field      | Type         | Null | Key | Default | Remarks 
+------------+--------------+------+-----+---------+---------
+ id         | INT(10)      | NO   | PRI |         |         
+ name       | VARCHAR(20)  | NO   |     |         | 课程名称    
+ pno        | INT(10)      | YES  |     |         | 先修课     
+ credit     | SMALLINT(5)  | NO   |     |         | 学分      
+ clazzhour  | SMALLINT(5)  | NO   |     |         | 课时      
+ address    | VARCHAR(255) | YES  |     |         | 上课地点    
+ info       | VARCHAR(255) | YES  |     |         | 课程信息    
+ t_username | INT(10)      | NO   |     |         | 教师号（教师用户名）
+ clazzid    | INT(10)      | NO   |     |         | 班级id    
+------------+--------------+------+-----+---------+---------
+
+Table: news
+------------+--------------+------+-----+---------------------+---------
+ Field      | Type         | Null | Key | Default             | Remarks 
+------------+--------------+------+-----+---------------------+---------
+ id         | INT(10)      | NO   | PRI |                     |         
+ title      | VARCHAR(20)  | NO   |     |                     | 公告标题    
+ author     | VARCHAR(50)  | NO   |     |                     | 作者      
+ abstract   | VARCHAR(150) | YES  |     |                     | 概要      
+ content    | TEXT(65535)  | YES  |     |                     | 内容      
+ createTime | DATETIME(19) | NO   |     | 0000-00-00 00:00:00 |         
+------------+--------------+------+-----+---------------------+---------
+
+Table: scholarship
+------------+--------------+------+-----+---------+---------
+ Field      | Type         | Null | Key | Default | Remarks 
+------------+--------------+------+-----+---------+---------
+ id         | INT(10)      | NO   | PRI |         |         
+ rank       | VARCHAR(20)  | NO   |     |         | 奖学金等级   
+ price      | INT(10)      | NO   |     |         | 奖学金金额   
+ num        | INT(10)      | NO   |     |         | 奖学金数目   
+ info       | VARCHAR(50)  | YES  |     |         | 备注      
+ createtime | DATETIME(19) | NO   |     |         | 注册时间    
+------------+--------------+------+-----+---------+---------
+
+Table: score
+------------+--------------+------+-----+---------+---------
+ Field      | Type         | Null | Key | Default | Remarks 
+------------+--------------+------+-----+---------+---------
+ sid        | VARCHAR(10)  | NO   | PRI |         | 学号      
+ cid        | INT(10)      | NO   | PRI |         | 课程号     
+ score      | INT(10)      | NO   |     |         | 成绩      
+ createtime | DATETIME(19) | YES  |     |         | 注册时间    
+------------+--------------+------+-----+---------+---------
+
+Table: student
+------------+--------------+------+-----+---------+---------
+ Field      | Type         | Null | Key | Default | Remarks 
+------------+--------------+------+-----+---------+---------
+ id         | INT(10)      | NO   | PRI |         |         
+ username   | VARCHAR(10)  | NO   |     |         | 学号      
+ password   | VARCHAR(20)  | NO   |     |         | 密码      
+ name       | VARCHAR(20)  | NO   |     |         | 名字      
+ clazzid    | INT(10)      | NO   |     |         | 班级id    
+ sex        | CHAR(1)      | NO   |     |         | 性别 ，'M' male ,'F' female
+ phone      | VARCHAR(11)  | YES  |     |         | 手机号码    
+ adress     | VARCHAR(255) | YES  |     |         | 地址      
+ icon       | VARCHAR(255) | YES  |     |         | 头像      
+ mailbox    | VARCHAR(20)  | YES  |     |         | 邮箱      
+ introduce  | VARCHAR(512) | YES  |     |         | 自我介绍    
+ createtime | DATETIME(19) | YES  |     |         | 用户创建时间  
+------------+--------------+------+-----+---------+---------
+
+Table: teacher
+------------+--------------+------+-----+---------+---------
+ Field      | Type         | Null | Key | Default | Remarks 
+------------+--------------+------+-----+---------+---------
+ id         | INT(10)      | NO   | PRI |         |         
+ username   | VARCHAR(10)  | NO   |     |         | 用户名     
+ password   | VARCHAR(50)  | NO   |     |         | 密码      
+ name       | VARCHAR(20)  | NO   |     |         | 名字      
+ sex        | CHAR(1)      | NO   |     |         | 性别，'M' male ,'F' female
+ role       | VARCHAR(10)  | NO   |     |         | 权限，admin, teacher
+ phone      | VARCHAR(11)  | YES  |     |         | 手机号码    
+ adress     | VARCHAR(255) | YES  |     |         | 地址      
+ icon       | VARCHAR(255) | YES  |     |         | 用户头像    
+ mailbox    | VARCHAR(20)  | YES  |     |         | 邮箱      
+ introduce  | VARCHAR(512) | YES  |     |         | 自我介绍    
+ createtime | DATE(10)     | YES  |     |         | 用户创建时间  
+------------+--------------+------+-----+---------+---------
+

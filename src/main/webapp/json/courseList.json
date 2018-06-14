@@ -1,0 +1,55 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 4,
+  "data": [
+    {
+      "id": "1",
+      "name": "数据结构",
+      "pName": "计算机基础",
+      "credit": 4,
+      "clazzhour": 32,
+      "address": "教六-325",
+      "info": "数据结构就是一门可以",
+      "createTime":"2018-01-31 10:00",
+      "tName":"钟某",
+      "clazzName":"16-自动化-物联网工程-2-班"
+    },
+    {
+      "id": "2",
+      "name": "离散数学",
+      "pName": "高等数学",
+      "credit": 4,
+      "clazzhour": 44,
+      "address": "教一-325",
+      "info": "张大婶手把手教你连选择题都没有的离散数学",
+      "createTime":"2018-01-31 10:00",
+      "tName":"张某",
+      "clazzName":"16-自动化-物联网工程-2-班"
+    },
+    {
+      "id": "3",
+      "name": "c++",
+      "pName": "C语言",
+      "credit": 4,
+      "clazzhour": 52,
+      "address": "教二-223",
+      "info": "c++从入门到放弃",
+      "createTime":"2018-01-31 10:00",
+      "tName":"郑老师",
+      "clazzName":"16-自动化-物联网工程-2-班"
+    },
+    {
+      "id": "4",
+      "name": "大数据",
+      "pName": "Linux",
+      "credit": 3,
+      "clazzhour": 28,
+      "address": "教六-325",
+      "info": "数据结构就是一门可以",
+      "createTime":"2018-01-31 10:00",
+      "tName":"钟某",
+      "clazzName":"16-自动化-物联网工程-2-班"
+    }               
+  ]
+}

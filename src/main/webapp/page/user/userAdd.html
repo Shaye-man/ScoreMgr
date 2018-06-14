@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>用户添加</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="../../css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+<form class="layui-form" style="width:50%;">
+	<input class="layui-hide id" name="id" value="" >
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label">学号</label>
+		<div class="layui-input-block">
+			<input type="text" class="layui-input username" lay-verify="required" placeholder="请输入学号">
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label">姓名</label>
+		<div class="layui-input-block">
+			<input type="text" class="layui-input name" lay-verify="required" placeholder="请输入姓名">
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label">邮箱</label>
+		<div class="layui-input-block">
+			<input type="text" class="layui-input mailbox" lay-verify="email" placeholder="请输入邮箱">
+		</div>
+	</div>
+	<div class="layui-row">
+		<div class="magb15 layui-col-md4 layui-col-xs12">
+			<label class="layui-form-label">性别</label>
+			<div class="layui-input-block sex">
+				<input type="radio" name="sex" value="男" title="男" checked>
+				<input type="radio" name="sex" value="女" title="女">
+			</div>
+		</div>
+		<div class="magb15 layui-col-md4 layui-col-xs12">
+			<label class="layui-form-label">班级</label>
+			<div class="layui-input-block">
+				<select name="userClazz" class="userClazz" lay-filter="userClazz">
+					<option value="0">16物联网1班</option>
+					<option value="1">16物联网2班</option>
+					<option value="2">16物联网3班</option>
+					<option value="3">16物联网4班</option>
+					<option value="4">16物联网5班</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label">用户简介</label>
+		<div class="layui-input-block">
+			<textarea placeholder="请输入用户简介" class="layui-textarea introduce"></textarea>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<div class="layui-input-block">
+			<button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="addUser">立即添加</button>
+			<button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+		</div>
+	</div>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['form','layer'],function(){
+    var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+        $ = layui.jquery;
+
+    form.on("submit(addUser)",function(data){
+        //弹出loading
+        var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+        
+        console.log("hahahha");
+        // 实际使用时的提交信息
+        $.ajax({
+  		  url: '/page/user/submit',
+  		  data: {
+              id: $(".id").val(),
+         	  username : $(".username").val(),
+              name : $(".name").val(),
+              sex : data.field.sex,
+              userClazz: data.field.userClazz,
+              mailbox : $(".mailbox").val(),
+              introduce : $(".introduce").val()
+          },
+  		  dataType: 'json',
+  		  type: 'post',
+  		  success: function(ret){
+  			  console.log(ret);
+  			  if(ret.state=="ok"){
+         		 top.layer.msg("用户添加成功！");
+                 layer.closeAll("iframe");
+                 //刷新父页面
+                 parent.location.reload();
+  			  } else {
+  				  top.layer.msg("用户添加失败！");
+  			  }
+  		  },
+  	  	  error: function(){
+  	  		top.layer.msg("用户添加失败！");
+  			  }
+  	  });
+        return false;
+    });
+
+})
+</script>
+</body>
+</html>

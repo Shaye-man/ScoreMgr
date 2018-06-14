@@ -1,0 +1,19 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 1,
+  "data": [
+    {
+      "id": "1",
+      "username": "3116001371",
+      "name": "驊驊龔頾",
+      "clazzName": "16物联网2班",
+      "sex": "男",
+      "phone": "13104861254",
+      "address": "sdafafawfasf",
+      "mailbox": "mage@layui.com",
+      "introduce" : "layuiCMS作者，原名‘请叫我马哥’",
+      "createTime": "2018-01-31 10:00"
+    }
+  ]
+}
