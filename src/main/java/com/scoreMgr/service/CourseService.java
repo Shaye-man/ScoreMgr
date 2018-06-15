@@ -13,14 +13,7 @@ public class CourseService {
 	
 	public static final CourseService me = new CourseService();
 	public static final Course dao = new Course().dao();
-	/**
-	 * table分页数据查询
-	 * @param page
-	 * @param limit
-	 * @param keywords
-	 * @param role
-	 * @return
-	 */
+
 	public Page<Course> paginate(int page,int limit, String keywords,String role,String username){
 		StringBuilder sb = new StringBuilder();
 		if(StrKit.notBlank(keywords)){
@@ -105,8 +98,8 @@ public class CourseService {
 	 */
 	private Ret create(Course course) {
 		course.setCreatetime(new Date());
-			course.save();
-			return Ret.ok();
+		course.save();
+		return Ret.ok();
 	}
 	
 	/**
