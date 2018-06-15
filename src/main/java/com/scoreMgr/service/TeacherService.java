@@ -26,7 +26,7 @@ public class TeacherService {
 			sb.append("and(teacher.username like '%"+keywords+"%' or teacher.name like '%"+keywords+"%')");
 		}
 		if(sb.length() > 0){
-			sb.insert(0, "from teacher where 1=1");
+			sb.insert(0, "from teacher where 1=1 ");
 			sb.append(" order by teacher.id desc");
 		} else {
 			sb.append("from teacher");
