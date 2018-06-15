@@ -128,9 +128,6 @@ layui.use(['form','layer'],function(){
     		url: '/page/course/form',
     		dataType: 'json',
     		success: function(responseM){
-    			console.log(responseM);
-    			console.log("----------------------");
-    			console.log(responseM.clazz);
     			if(responseM.clazz.length > 0){
     				//加载班级
     				var clazzName = $("#clazzNameHide").val();
@@ -148,6 +145,7 @@ layui.use(['form','layer'],function(){
     				for(var i = 0;i < responseM.teacher.length; i++){
     					var name = responseM.teacher[i].name;
     					var value = responseM.teacher[i].id;
+    					console.log(i+"......."+value);
     					if(tName == name){
     						$(".tName").append('<option value="'+value+'" selected="">'+name+'</option>');
     					}else{

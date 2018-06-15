@@ -14,16 +14,16 @@ public class CourseService {
 	public static final CourseService me = new CourseService();
 	public static final Course dao = new Course().dao();
 
-	public Page<Course> paginate(int page,int limit, String keywords,String role,String username){
+	public Page<Course> paginate(int page,int limit, String keywords,String role,int id){
 		StringBuilder sb = new StringBuilder();
 		if(StrKit.notBlank(keywords)){
 			sb.append(" and (course.name like '%"+keywords+"%' or teacher.name like '%"+keywords+"%' or clazz.name like '%"+keywords+"%')");
 		}
-		if(role == "student"){
-			Student stu = Student.dao.findFirst("select clazzid from student where username = ?",username);
+		if(role == "student" || role.equals("student")){
+			Student stu = Student.dao.findFirst("select clazzid from student where id = ?",id);
 			int clazzID = stu.getClazzid();
 			if(sb.length() > 0){
-				sb.insert(0, "from clazz,course,teacher where clazz.id = course.clazzid = "+clazzID+" and teacher.id = course.tid");
+				sb.insert(0, "from clazz,course,teacher where clazz.id = course.clazzid = "+clazzID+" and teacher.username = course.tid");
 				sb.append(" order by course.id desc");
 			} else {
 				sb.append("from clazz,course,teacher");
@@ -31,17 +31,17 @@ public class CourseService {
 				sb.append(" order by course.id desc");
 			}
 		}
-		else if(role == "teacher"){
+		else if(role == "teacher" || role.equals("teacher")){
 			if(sb.length() > 0){
-				sb.insert(0, "from clazz,course,teacher where clazz.id = course.clazzid and teacher.id = course.tid = "+username+"");
+				sb.insert(0, "from clazz,course,teacher where clazz.id = course.clazzid and teacher.id = course.tid = "+id+"");
 				sb.append(" order by course.id desc");
 			} else {
 				sb.append("from clazz,course,teacher");
-				sb.append(" where clazz.id = course.clazzid and teacher.id = course.tid = "+username+"");
+				sb.append(" where clazz.id = course.clazzid and teacher.id = course.tid = "+id+"");
 				sb.append(" order by course.id desc");
 			}
 		}
-		else if(role == "admin"){
+		else if(role == "admin" || role.equals("admin")){
 			if(sb.length() > 0){
 				sb.insert(0, "from clazz,course,teacher where clazz.id = course.clazzid and teacher.id = course.tid");
 				sb.append(" order by course.id desc");

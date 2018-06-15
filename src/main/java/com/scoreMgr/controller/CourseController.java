@@ -21,9 +21,9 @@ public class CourseController extends BaseController {
 		 Integer page = getParaToInt("page");
 		 Integer limit = getParaToInt("limit");
 		 String keywords = getPara("keywords");
-		 String role = getSessionAttr("role","none");
-		 String username = getSessionAttr("userID");
-		 Page<Course> pageData = service.paginate(page, limit, keywords, role, username);
+		 String role = getSessionAttr("role","admin");
+		 String sid = getSessionAttr("ID");
+		 Page<Course> pageData = service.paginate(page, limit, keywords, role,Integer.parseInt(sid));
 		 
 		 setAttr("code",0);
 		 setAttr("msg","成功读取课程数据！");

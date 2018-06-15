@@ -34,8 +34,9 @@ public class LoginController extends BaseController{
         Teacher teacher = Teacher.dao.findFirst(("select * from teacher where username = ? limit 1"),username);
         if(teacher != null){
         	if(teacher.getPassword().equals(password)){
-        		setSessionAttr("userID", teacher.getUsername());
-        		setSessionAttr("username", teacher.getName());
+        		setSessionAttr("ID", teacher.getId().toString());
+        		setSessionAttr("username", teacher.getUsername());
+        		setSessionAttr("name", teacher.getName());
         		setSessionAttr("role",teacher.getRole());
         		flag = true;
         	} else {
@@ -47,8 +48,9 @@ public class LoginController extends BaseController{
         	Student student = Student.dao.findFirst(("select * from student where username = ? limit 1"),username);
         	if (student != null){
         		if(student.getPassword().equals(password)){
-            		setSessionAttr("userID", student.getUsername());
-            		setSessionAttr("username", student.getName());
+        			setSessionAttr("ID", student.getId().toString());
+            		setSessionAttr("username", student.getUsername());
+            		setSessionAttr("name", student.getName());
             		setSessionAttr("role","student");
         			flag = true;
         		} else {
