@@ -14,7 +14,7 @@
 </head>
 <body class="childrenBody">
 <form class="layui-form" style="width:50%;">
-	<input class="layui-hide" id="id" value="" >
+	<input class="layui-hide" id="id" value="">
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">年级</label>
 		<div class="layui-input-block">
@@ -102,9 +102,10 @@ layui.use(['form','layer'],function(){
   		  url: '/page/clazz/submit',
   		  data: {
               id: $("#id").val(),
-         	  title : $(".title").val(),
-              abstract : $(".abstract").val(),
-              content : $(".content").val(),
+         	  grade : data.field.grade,
+              major : $(".major").val(),
+              num : data.field.num,
+              academy: data.field.academy,
               name: $("#name").val()
           },
   		  dataType: 'json',
