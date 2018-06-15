@@ -14,12 +14,13 @@
 </head>
 <body class="childrenBody">
 <form class="layui-form layui-row layui-col-space10">
+	<input class="layui-hide" id="id" value="">
 	<div class="layui-col-md9 layui-col-xs12">
 		<div class="layui-row layui-col-space10">
 			<div class="layui-form-item magt3">
 				<label class="layui-form-label">公告标题</label>
 				<div class="layui-input-block">
-					<input type="text" class="layui-input newsName" lay-verify="newsName" placeholder="请输入公告标题">
+					<input type="text" class="layui-input title" lay-verify="title" placeholder="请输入公告标题">
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -42,6 +43,64 @@
 	</div>
 </form>
 <script type="text/javascript" src="../../layui/layui.js"></script>
-<script type="text/javascript" src="newsAdd.js"></script>
+<script type="text/javascript">
+layui.use(['form','layer'],function(){
+    var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+        $ = layui.jquery;
+    
+    form.verify({
+        title : function(val){
+            if(val == ''){
+                return "公告标题不能为空";
+            }
+        },
+        content : function(val){
+            if(val == ''){
+                return "公告内容不能为空";
+            }
+        }
+    });
+    
+    form.on("submit(addNews)",function(data){
+        //弹出loading
+        var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+        
+        // 实际使用时的提交信息
+        $.ajax({
+  		  url: '/page/news/submit',
+  		  data: {
+              id: $("#id").val(),
+         	  title : $(".title").val(),
+              abstract : $(".abstract").val(),
+              content : $(".content").val(),
+          },
+  		  dataType: 'json',
+  		  type: 'post',
+  		  success: function(ret){
+  			  if(ret.state=="ok"){
+         		 top.layer.msg("公告发布成功！");
+                 layer.closeAll("iframe");
+                 //刷新父页面
+                 parent.location.reload();
+  			  } else {
+  				  top.layer.msg("公告发布失败！");
+  			  }
+  		  },
+  	  	  error: function(){
+  	  		top.layer.msg("公告发布失败！");
+  			  }
+  	  });
+        return false;
+    });
+    
+    
+    //预览
+    form.on("submit(look)",function(){
+        layer.alert("唉，哪里有这么多时间开发这些玩意...如果有机会的话会完善的。");
+        return false;
+    });
+});
+</script>
 </body>
 </html>

@@ -14,7 +14,7 @@
 </head>
 <body class="childrenBody">
 <form class="layui-form" style="width:50%;">
-	<input class="layui-hide" name="id" value="" >
+	<input class="layui-hide" id="id" value="" >
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">课程名</label>
 		<div class="layui-input-block">
@@ -24,7 +24,7 @@
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">先修课</label>
 		<div class="layui-input-block">
-			<input type="text" class="layui-input pName" lay-verify="required" placeholder="请输入先修课名">
+			<input type="text" class="layui-input pname" lay-verify="required" placeholder="请输入先修课名">
 		</div>
 	</div>
 	<div class="layui-form-item layui-row layui-col-xs12">
@@ -51,25 +51,21 @@
 			<textarea placeholder="请输入课程简介" class="layui-textarea info"></textarea>
 		</div>
 	</div>
+	<input class="layui-hide" id="tNameHide" value="" >
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">授课教师</label>
 		<div class="layui-input-block">
-			<select name="tName" class="tName">
-				<option value="张三">张三</option>
-				<option value="李四">李四</option>
-				<option value="王五">王五</option>
-				<option value="赵六">赵六</option>
+			<select name="tName" class="tName" lay-verify="required">
+				<option value="">请选择教师...</option>
 			</select>
 		</div>
 	</div>
+	<input class="layui-hide" id="clazzNameHide" value="" >
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">上课班级</label>
 		<div class="layui-input-block">
-			<select name="clazzName" class="clazzName">
-				<option value="16-自动化-物联网工程-1-班">16-自动化-物联网工程-1-班</option>
-				<option value="16-自动化-物联网工程-2-班">16-自动化-物联网工程-2-班</option>
-				<option value="16-自动化-物联网工程-3-班">16-自动化-物联网工程-3-班</option>
-				<option value="16-自动化-物联网工程-4-班">16-自动化-物联网工程-4-班</option>
+			<select name="clazzName" class="clazzName" lay-verify="required">
+				<option value="">请选择班级...</option>
 			</select>
 		</div>
 	</div>
@@ -81,6 +77,93 @@
 	</div>
 </form>
 <script type="text/javascript" src="../../layui/layui.js"></script>
-<script type="text/javascript" src="courseAdd.js"></script>
+<script type="text/javascript">
+layui.use(['form','layer'],function(){
+    var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+        $ = layui.jquery;
+    InitForm();
+    
+    form.on("submit(addCourse)",function(data){
+        //弹出loading
+        var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+        
+        // 实际使用时的提交信息
+        $.ajax({
+  		  url: '/page/course/submit',
+  		  data: {
+              id: $("#id").val(),
+         	  pname : $(".pname").val(),
+              name : $(".name").val(),
+              credit : $(".credit").val(),
+              clazzhour : $(".clazzhour").val(),
+              address : $(".address").val(),
+              info : $(".info").val(),
+              tName : data.field.tName,
+              clazzName: data.field.clazzName
+          },
+  		  dataType: 'json',
+  		  type: 'post',
+  		  success: function(ret){
+  			  if(ret.state=="ok"){
+         		 top.layer.msg("课程添加成功！");
+                 layer.closeAll("iframe");
+                 //刷新父页面
+                 parent.location.reload();
+  			  } else {
+  				  top.layer.msg("课程添加失败！");
+  			  }
+  		  },
+  	  	  error: function(){
+  	  		top.layer.msg("课程添加失败！");
+  			  }
+  	  });
+        return false;
+    });
+
+    //下拉初始化
+    function InitForm(){
+    	$.ajax({
+    		type: 'post',
+    		url: '/page/course/form',
+    		dataType: 'json',
+    		success: function(responseM){
+    			console.log(responseM);
+    			console.log("----------------------");
+    			console.log(responseM.clazz);
+    			if(responseM.clazz.length > 0){
+    				//加载班级
+    				var clazzName = $("#clazzNameHide").val();
+    				for(var i = 0;i < responseM.clazz.length; i++){
+    					var name = responseM.clazz[i].name;
+    					var value = responseM.clazz[i].id;
+    					if(clazzName == name){
+    						$(".clazzName").append('<option value="'+value+'" selected="">'+name+'</option>');
+    					}else{
+	    					$(".clazzName").append('<option value="'+value+'">'+name+'</option>');
+    					}
+    				}
+    				//加载教师
+    				var tName = $("#tNameHide").val();
+    				for(var i = 0;i < responseM.teacher.length; i++){
+    					var name = responseM.teacher[i].name;
+    					var value = responseM.teacher[i].id;
+    					if(tName == name){
+    						$(".tName").append('<option value="'+value+'" selected="">'+name+'</option>');
+    					}else{
+	    					$(".tName").append('<option value="'+value+'">'+name+'</option>');
+    					}
+    				}
+    				
+    				form.render('select');
+    			}else{
+    				layer.msg("下拉数据加载失败...");
+    			}
+    		}
+    	})
+    }
+    
+});
+</script>
 </body>
 </html>

@@ -13,12 +13,6 @@
 			"spread": false
 		},
 		{
-			"title": "图片管理",
-			"icon": "&#xe634;",
-			"href": "page/img/images.html",
-			"spread": false
-		},
-		{
 			"title": "课程管理",
 			"icon": "&#xe629;",
 			"href": "page/course/courseList.html",

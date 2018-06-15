@@ -5,10 +5,9 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         laytpl = layui.laytpl,
         table = layui.table;
 
-    //新闻列表
-    var tableIns = table.render({
+    table.render({
         elem: '#scholarshipList',
-        url : '../../json/scholarshipList.json',
+        url : '/page/scholarship/list',
         cellMinWidth : 95,
         page : true,
         height : "full-125",
@@ -28,7 +27,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
                     return d.info;
                 }
             }},
-            {field: 'createTime', title: '发布时间', align:'center', minWidth:110, templet:function(d){
+            {field: 'createtime', title: '发布时间', align:'center', minWidth:110, templet:function(d){
                 return d.createTime.substring(0,10);
             }},
             {title: '操作', width:170, templet:'#scholarshipListBar',fixed:"right",align:"center"}
@@ -38,12 +37,13 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
     //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
     $(".search_btn").on("click",function(){
         if($(".searchVal").val() != ''){
-            table.reload("newsListTable",{
+            table.reload("scholarshipListTable",{
                 page: {
                     curr: 1 //重新从第 1 页开始
                 },
                 where: {
-                    key: $(".searchVal").val()  //搜索的关键字
+                	url: '/page/scholarship/list',
+                    keywords: $(".searchVal").val()  //搜索的关键字
                 }
             })
         }else{
@@ -61,7 +61,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             success : function(layero, index){
                 var body = layui.layer.getChildFrame('body', index);
                 if(edit){
-                    body.find(".id").val(edit.id);
+                    body.find("#id").val(edit.id);
                     body.find(".rank").val(edit.rank);
                     body.find(".price").val(edit.price);
                     body.find(".num").val(edit.num);
@@ -76,32 +76,39 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             }
         })
     }
-    $(".addscholarship_btn").click(function(){
+    $(".addScholarship_btn").click(function(){
         addscholarship();
     })
 
     //批量删除
     $(".delAll_btn").click(function(){
         var checkStatus = table.checkStatus('scholarshipListTable'),
-            data = checkStatus.data,
-            newsId = [];
+            data = checkStatus.data;
+
         if(data.length > 0) {
-            for (var i in data) {
-                newsId.push(data[i].newsId);
-            }
+            var ids = "";
+        	for(var i=0; i<data.length; i++){
+        		ids += data[i].id+",";
+        	}
+        	ids=ids.substring(0, ids.length-1);
             layer.confirm('确定删除选中的奖项？', {icon: 3, title: '提示信息'}, function (index) {
-                // $.get("删除文章接口",{
-                //     newsId : newsId  //将需要删除的newsId作为参数传入
-                // },function(data){
-                tableIns.reload();
-                layer.close(index);
-                // })
+                 $.get("/page/scholarship/batchRemove",{
+                     ids : ids  
+                 },function(responseM){
+                	if(responseM.code == 0){
+                        layer.msg("奖项删除成功！");
+                        tableIns.reload();
+    	                layer.close(index);
+                	}else{
+                		 layer.msg("奖项删除失败！");
+                	}
+                 })
             })
         }else{
             layer.msg("请选择需要删除的奖项");
         }
-    })
-
+    });
+    
     //列表操作
     table.on('tool(scholarshipList)', function(obj){
         var layEvent = obj.event,
@@ -112,14 +119,19 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         } 
         else if(layEvent === 'del'){ //删除
             layer.confirm('确定删除此奖项？',{icon:3, title:'提示信息'},function(index){
-                // $.get("删除文章接口",{
-                //     newsId : data.newsId  //将需要删除的newsId作为参数传入
-                // },function(data){
-                    tableIns.reload();
-                    layer.close(index);
-                // })
-            });
-        }
+                $.get("/page/scholarship/delete",{
+                    id : data.id
+                },function(ret){
+               	if(ret.state == "ok"){
+                       layer.msg("奖项删除成功！");
+                       tableIns.reload();
+                       layer.close(index);
+               	}else{
+               		layer.msg("奖项删除失败！");
+               	}
+                })
+           });
+       }
     });
 
 })

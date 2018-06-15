@@ -51,6 +51,7 @@ layui.use(['form','layer','table','laytpl'],function(){
                     curr: 1 //重新从第 1 页开始
                 },
                 where: {
+                	url: '/page/user/teacher/list',
                     keywords: $(".searchVal").val()  //搜索的关键字
                 }
             })

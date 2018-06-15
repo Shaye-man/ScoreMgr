@@ -36,12 +36,13 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
     //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
     $(".search_btn").on("click",function(){
         if($(".searchVal").val() != ''){
-            table.reload("newsListTable",{
+            table.reload("courseListTable",{
                 page: {
                     curr: 1 //重新从第 1 页开始
                 },
                 where: {
-                    key: $(".searchVal").val()  //搜索的关键字
+                	url: '/page/course/list',
+                    keywords: $(".searchVal").val()  //搜索的关键字
                 }
             })
         }else{
@@ -58,15 +59,15 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             success : function(layero, index){
                 var body = layui.layer.getChildFrame('body', index);
                 if(edit){
-                    body.find("id").val(edit.id);
+                    body.find("#id").val(edit.id);
                     body.find(".name").val(edit.name);
-                    body.find(".pName").val(edit.pName);
+                    body.find(".pname").val(edit.pname);
                     body.find(".credit").val(edit.credit);
                     body.find(".clazzhour").val(edit.clazzhour);
                     body.find(".address").val(edit.address);
                     body.find(".info").val(edit.info);
-                    body.find(".tName").val(edit.tName);
-                    body.find(".clazzName").val(edit.clazzName);                    
+                    body.find("#tNameHide").val(edit.tName);
+                    body.find("#clazzNameHide").val(edit.clazzName);                    
                     form.render();
                 }
                 setTimeout(function(){
@@ -86,25 +87,32 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         addCourse();
     })
 
-    //批量删除
+ //批量删除
     $(".delAll_btn").click(function(){
-        var checkStatus = table.checkStatus('newsListTable'),
-            data = checkStatus.data,
-            newsId = [];
+        var checkStatus = table.checkStatus('courseListTable'),
+            data = checkStatus.data;
+
         if(data.length > 0) {
-            for (var i in data) {
-                newsId.push(data[i].newsId);
-            }
-            layer.confirm('确定删除选中的班级？', {icon: 3, title: '提示信息'}, function (index) {
-                // $.get("删除文章接口",{
-                //     newsId : newsId  //将需要删除的newsId作为参数传入
-                // },function(data){
-                tableIns.reload();
-                layer.close(index);
-                // })
+            var ids = "";
+        	for(var i=0; i<data.length; i++){
+        		ids += data[i].id+",";
+        	}
+        	ids=ids.substring(0, ids.length-1);
+            layer.confirm('确定删除选中的课程？', {icon: 3, title: '提示信息'}, function (index) {
+                 $.get("/page/course/batchRemove",{
+                     ids : ids  
+                 },function(responseM){
+                	if(responseM.code == 0){
+                        layer.msg("课程删除成功！");
+    	                tableIns.reload();
+    	                layer.close(index);
+                	}else{
+                		 layer.msg("课程删除失败！");
+                	}
+                 })
             })
         }else{
-            layer.msg("请选择需要删除的班级");
+            layer.msg("请选择需要删除的课程");
         }
     })
 
@@ -117,13 +125,18 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             addCourse(data);
         } 
         else if(layEvent === 'del'){ //删除
-            layer.confirm('确定删除此班级？',{icon:3, title:'提示信息'},function(index){
-                // $.get("删除文章接口",{
-                //     newsId : data.newsId  //将需要删除的newsId作为参数传入
-                // },function(data){
-                    tableIns.reload();
-                    layer.close(index);
-                // })
+            layer.confirm('确定删除此课程？',{icon:3, title:'提示信息'},function(index){
+                 $.get("/page/course/delete",{
+                     id : data.id  //将需要删除的newsId作为参数传入
+                 },function(ret){
+                	if(ret.state == "ok"){
+                        layer.msg("课程删除成功！");
+                        layer.close(index);
+                        tableIns.reload();
+                	}else{
+                		layer.msg("课程删除失败！");
+                	}
+                 })
             });
         }
     });

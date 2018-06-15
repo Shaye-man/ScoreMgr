@@ -14,10 +14,12 @@
 </head>
 <body class="childrenBody">
 <form class="layui-form" style="width:50%;">
+	<input class="layui-hide" id="id" value="" >
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">年级</label>
 		<div class="layui-input-block">
-			<select name="grade" class="grade" lay-filter="change">
+			<select name="grade" class="grade" lay-filter="change" lay-verify="required">
+				<option value="">请选择年级</option>
 				<option value="12">12</option>
 				<option value="13">13</option>
 				<option value="14">14</option>
@@ -33,7 +35,8 @@
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">学院</label>
 		<div class="layui-input-block">
-			<select name="academy" class="academy" lay-filter="change">
+			<select name="academy" class="academy" lay-filter="change" lay-verify="required">
+				<option value="">请选择学院</option>
 				<option value="自动化">自动化</option>
 				<option value="机电工程">机电工程</option>
 				<option value="外国语">外国语</option>
@@ -43,6 +46,7 @@
 				<option value="环境工程">环境工程</option>
 				<option value="土木与交通工程">土木与交通工程</option>
 				<option value="物理">物理</option>
+				<option value="艺术">艺术</option>
 			</select>
 		</div>
 	</div>
@@ -55,16 +59,17 @@
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">班级号</label>
 		<div class="layui-input-block">
-			<select name="num" class="num" lay-filter="change">
+			<select name="num" class="num" lay-filter="change" lay-verify="required">
+				<option value="">请选择年级班级号</option>
 				<option value="1">1</option>
 				<option value="2">2</option>
 				<option value="3">3</option>
 				<option value="4">4</option>
 				<option value="5">5</option>
-				<option value="5">6</option>
-				<option value="5">7</option>
-				<option value="5">8</option>
-				<option value="5">9</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
 			</select>
 		</div>
 	</div>
@@ -82,6 +87,64 @@
 	</div>
 </form>
 <script type="text/javascript" src="../../layui/layui.js"></script>
-<script type="text/javascript" src="clazzAdd.js"></script>
+<script type="text/javascript">
+layui.use(['form','layer'],function(){
+    var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+        $ = layui.jquery;
+    
+    form.on("submit(addClazz)",function(data){
+        //弹出loading
+        var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+        
+        // 实际使用时的提交信息
+        $.ajax({
+  		  url: '/page/clazz/submit',
+  		  data: {
+              id: $("#id").val(),
+         	  title : $(".title").val(),
+              abstract : $(".abstract").val(),
+              content : $(".content").val(),
+              name: $("#name").val()
+          },
+  		  dataType: 'json',
+  		  type: 'post',
+  		  success: function(ret){
+  			  if(ret.state=="ok"){
+         		 top.layer.msg("班级添加成功！");
+                 layer.closeAll("iframe");
+                 //刷新父页面
+                 parent.location.reload();
+  			  } else {
+  				  top.layer.msg("班级添加失败！");
+  			  }
+  		  },
+  	  	  error: function(){
+  	  		top.layer.msg("班级添加失败！");
+  			  }
+  	  });
+        return false;
+    });
+    
+    form.on("select(change)",function(data){
+        var grade = $(".grade").val();
+        var academy = $(".academy").val();
+        var major = $(".major").val();
+        var num = $(".num").val();
+        var text = grade+"-"+academy+"-"+major+"-"+num+"-"+"班";
+        document.getElementById("name").value = text;        
+    });
+
+    $(".major").on('input propertychange',function(){
+        var grade = $(".grade").val();
+        var academy = $(".academy").val();
+        var major = $(".major").val();
+        var num = $(".num").val();
+        var text = grade+"-"+academy+"-"+major+"-"+num+"-"+"班";
+        document.getElementById("name").value = text; 
+    });
+    
+});
+</script>
 </body>
 </html>
