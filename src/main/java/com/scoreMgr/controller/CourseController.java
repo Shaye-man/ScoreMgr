@@ -37,8 +37,8 @@ public class CourseController extends BaseController {
 	 * 跳转至form界面
 	 */
 	public void form(){
-		List<Clazz> clazz = Clazz.dao.find("select * from clazz");
-		List<Teacher> teacher = Teacher.dao.find("select * from clazz");
+		List<Clazz> clazz = Clazz.dao.find("select id,name from clazz");
+		List<Teacher> teacher = Teacher.dao.find("select id,name from teacher");
 		responseM.put("clazz", clazz);
 		responseM.put("teacher", teacher);
 		renderJson(responseM);
@@ -52,12 +52,12 @@ public class CourseController extends BaseController {
 		course.setId(getParaToInt("id"));
 		course.setName(getPara("name"));
 		course.setPname(getPara("pname"));
-		course.setCredit(getParaToInt("Credit"));
+		course.setCredit(getParaToInt("credit"));
 		course.setClazzhour(getParaToInt("clazzhour"));
 		course.setAddress(getPara("address"));
 		course.setInfo(getPara("info"));
-		course.setTid(getParaToInt("tid"));
-		course.setClazzid(getParaToInt("userClazz"));
+		course.setTid(getParaToInt("tName"));
+		course.setClazzid(getParaToInt("clazzName"));
 		
 		Ret ret = service.submit(course);
 		renderJson(ret);
