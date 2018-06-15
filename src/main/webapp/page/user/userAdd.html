@@ -41,15 +41,12 @@
 				<input type="radio" name="sex" value="女" title="女">
 			</div>
 		</div>
-		<div class="magb15 layui-col-md4 layui-col-xs12">
+		<input class="layui-hide clazz" value="" >
+		<div class="magb15 layui-col-md5 layui-col-xs12">
 			<label class="layui-form-label">班级</label>
 			<div class="layui-input-block">
 				<select name="userClazz" class="userClazz" lay-filter="userClazz">
-					<option value="0">16物联网1班</option>
-					<option value="1">16物联网2班</option>
-					<option value="2">16物联网3班</option>
-					<option value="3">16物联网4班</option>
-					<option value="4">16物联网5班</option>
+					<option value="">请选择班级...</option>
 				</select>
 			</div>
 		</div>
@@ -73,12 +70,12 @@ layui.use(['form','layer'],function(){
     var form = layui.form
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery;
-
+    InitForm();
+    
     form.on("submit(addUser)",function(data){
         //弹出loading
         var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
         
-        console.log("hahahha");
         // 实际使用时的提交信息
         $.ajax({
   		  url: '/page/user/submit',
@@ -101,7 +98,7 @@ layui.use(['form','layer'],function(){
                  //刷新父页面
                  parent.location.reload();
   			  } else {
-  				  top.layer.msg("用户添加失败！");
+  				  top.layer.msg("学号重复！");
   			  }
   		  },
   	  	  error: function(){
@@ -111,7 +108,34 @@ layui.use(['form','layer'],function(){
         return false;
     });
 
-})
+    //下拉初始化
+    function InitForm(){
+    	$.ajax({
+    		type: 'post',
+    		url: '/page/user/form',
+    		dataType: 'json',
+    		success: function(data){
+    			if(data.length > 0){
+    				var r = $(".clazz").val();
+    				for(var i = 0;i < data.length; i++){
+    					var name = data[i].name;
+    					var value = data[i].id;
+    					if(r == value){
+    						$(".userClazz").append('<option value="'+value+'" selected="">'+name+'</option>');
+    					}else{
+	    					$(".userClazz").append('<option value="'+value+'">'+name+'</option>');
+    					}
+    				}
+    				form.render('select');
+    			}else{
+    				layer.msg("下拉数据加载失败...");
+    			}
+    		}
+    	})
+    }
+    
+});
+
 </script>
 </body>
 </html>

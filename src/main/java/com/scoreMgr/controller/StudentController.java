@@ -34,20 +34,14 @@ public class StudentController extends BaseController {
 	 * 跳转至form界面
 	 */
 	public void form(){
-		Integer id = getParaToInt(0);
-		List<Clazz> clazz = Clazz.dao.find("select * from clazz");
-		setAttr("clazz", clazz);
-		if(id != null && id > 0){
-			setAttr("student",Student.dao.findById(id));
-		}
-		render("form.html");
+		List<Clazz> data = Clazz.dao.find("select * from clazz");
+		renderJson(data);
 	}
 	
 	/**
 	 * 提交表单信息
 	 */
 	public void submit(){
-		System.out.println("here");
 		Student student = new Student();
 		student.setId(getParaToInt("id"));
 		student.setUsername(getPara("username"));
@@ -56,7 +50,6 @@ public class StudentController extends BaseController {
 		student.setSex(getPara("sex"));
 		student.setClazzid(getParaToInt("userClazz"));
 		student.setIntroduce(getPara("introduce"));
-		student.setCreatetime(getParaToDate("createtime"));
 		
 		String username = student.getUsername();
 		Ret ret = service.submit(student,username);

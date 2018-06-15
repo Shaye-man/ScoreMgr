@@ -20,14 +20,17 @@ layui.use(['form','layer','table','laytpl'],function(){
             {field: 'id', title: 'ID', width:60, align:"center"},
             {field: 'username', title: '学号', width:120, align:"center"},
             {field: 'name', title: '姓名', width:100, align:"center"},
+            {field: 'clazzid', title: '班级号', width:60, align:"center"},
             {field: 'clazzName', title: '班级', minWidth:150, align:"center"},
             {field: 'sex', title: '性别',width:60, align:'center'},
-            {field: 'phone', title: '手机', align:'center'},
-            {field: 'mailbox', title: '邮箱', minWidth:150, align:'center',templet:function(d){
+            {field: 'phone', title: '手机',width:120, align:'center'},
+            {field: 'mailbox', title: '邮箱', minWidth:120, align:'center',templet:function(d){
             	return '<a class="layui-blue" href="mailto:'+d.mailbox+'">'+d.mailbox+'</a>';
             }},
             {field: 'introduce', title: '简介', align:'center',maxWidth:175},
-            {field: 'createTime', title: '注册时间', align:'center',minWidth:150},
+            {field: 'createTime', title: '注册时间', align:'center',width:110, templet:function(d){
+                return d.createTime.substring(0,10);
+            }},
             {title: '操作', minWidth:175, templet:'#userListBar',fixed:"right",align:"center"}
         ]]
     });
@@ -35,12 +38,13 @@ layui.use(['form','layer','table','laytpl'],function(){
     //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
     $(".search_btn").on("click",function(){
         if($(".searchVal").val() != ''){
-            table.reload("newsListTable",{
+            table.reload("userListTable",{
                 page: {
                     curr: 1 //重新从第 1 页开始
                 },
                 where: {
-                    key: $(".searchVal").val()  //搜索的关键字
+                	url: '/page/user/list',
+                    keywords: $(".searchVal").val()  //搜索的关键字
                 }
             })
         }else{
@@ -62,7 +66,7 @@ layui.use(['form','layer','table','laytpl'],function(){
                     body.find(".name").val(edit.name);  //姓名
                     body.find(".sex input[value="+edit.sex+"]").prop("checked","checked");  //性别
                     body.find(".mailbox").val(edit.mailbox);  //邮箱
-                    body.find(".userClazz").val(edit.clazzName);    //用户状态
+                    body.find('.clazz').val(edit.clazzid);
                     body.find(".introduce").val(edit.introduce);    //用户简介
                     form.render();
                 }

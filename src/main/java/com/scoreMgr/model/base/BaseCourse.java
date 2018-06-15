@@ -27,13 +27,13 @@ public abstract class BaseCourse<M extends BaseCourse<M>> extends Model<M> imple
 		return getStr("name");
 	}
 
-	public M setPno(java.lang.Integer pno) {
-		set("pno", pno);
+	public M setPname(java.lang.String pname) {
+		set("pname", pname);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getPno() {
-		return getInt("pno");
+	public java.lang.String getPname() {
+		return getStr("pname");
 	}
 
 	public M setCredit(java.lang.Integer credit) {
@@ -72,13 +72,22 @@ public abstract class BaseCourse<M extends BaseCourse<M>> extends Model<M> imple
 		return getStr("info");
 	}
 
-	public M setTUsername(java.lang.Integer tUsername) {
-		set("t_username", tUsername);
+	public M setTid(java.lang.Integer tid) {
+		set("tid", tid);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getTUsername() {
-		return getInt("t_username");
+	public java.lang.Integer getTid() {
+		return getInt("tid");
+	}
+
+	public M setCreatetime(java.util.Date createtime) {
+		set("createtime", createtime);
+		return (M)this;
+	}
+	
+	public java.util.Date getCreatetime() {
+		return get("createtime");
 	}
 
 	public M setClazzid(java.lang.Integer clazzid) {

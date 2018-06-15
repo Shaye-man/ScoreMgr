@@ -24,18 +24,17 @@ public class StudentService {
 	public Page<Student> paginate(int page,int limit, String keywords){
 		StringBuilder sb = new StringBuilder();
 		if(StrKit.notBlank(keywords)){
-			sb.append(" and (username like '%"+keywords+"%' or name like '%"+keywords+"%' or clazzName like '%"+keywords+"%')");
+			sb.append(" and (student.username like '%"+keywords+"%' or student.name like '%"+keywords+"%' or clazz.name like '%"+keywords+"%')");
 		}
 		if(sb.length() > 0){
-			sb.insert(0, "from clazz,student");
-			sb.append(" where clazz.id = student.clazzid");
+			sb.insert(0, "from clazz,student where clazz.id = student.clazzid");
 			sb.append(" order by student.id desc");
 		} else {
 			sb.append("from clazz,student");
 			sb.append(" where clazz.id = student.clazzid");
 			sb.append(" order by student.id desc");
 		}
-		return dao.paginate(page, limit, "select student.id,student.username,student.name,clazz.name as clazzName,student.sex,student.phone,student.mailbox,student.introduce,student.createTime",sb.toString());
+		return dao.paginate(page, limit, "select student.id,student.username,student.name,student.clazzid,clazz.name as clazzName,student.sex,student.phone,student.mailbox,student.introduce,student.createTime",sb.toString());
 	}
 
 	/**

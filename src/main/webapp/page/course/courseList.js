@@ -8,7 +8,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
     //新闻列表
     var tableIns = table.render({
         elem: '#courseList',
-        url : '../../json/courseList.json',
+        url : '/page/course/list',
         cellMinWidth : 95,
         page : true,
         height : "full-125",
@@ -19,7 +19,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             {type: "checkbox", fixed:"left", width:50},
             {field: 'id', title: 'ID', width:60, align:"center",sort:true},
             {field: 'name', title: '课程名', width:150,align:'center',sort:true},
-            {field: 'pName', title: '先修课', align:'center',width:100},
+            {field: 'pname', title: '先修课', align:'center',width:100},
             {field: 'credit', title: '学分', width:80,align:'center'},
             {field: 'clazzhour', title: '课时', width:80,align:'center'},
             {field: 'address', title: '上课地点', width:150,align:'center'},
