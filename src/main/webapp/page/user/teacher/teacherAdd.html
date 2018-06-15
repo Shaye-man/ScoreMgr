@@ -14,28 +14,29 @@
 </head>
 <body class="childrenBody">
 <form class="layui-form" style="width:50%;">
+	<input class="layui-hide id" name="id" value="" >
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">用户名</label>
 		<div class="layui-input-block">
-			<input type="text" class="layui-input userName" lay-verify="required" placeholder="请输入用户名">
+			<input type="text" class="layui-input username" lay-verify="required" placeholder="请输入用户名">
 		</div>
 	</div>
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">姓名</label>
 		<div class="layui-input-block">
-			<input type="text" class="layui-input userName" lay-verify="required" placeholder="请输入姓名">
+			<input type="text" class="layui-input name" lay-verify="required" placeholder="请输入姓名">
 		</div>
 	</div>
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">邮箱</label>
 		<div class="layui-input-block">
-			<input type="text" class="layui-input userEmail" lay-verify="email" placeholder="请输入邮箱">
+			<input type="text" class="layui-input mailbox" lay-verify="email" placeholder="请输入邮箱">
 		</div>
 	</div>
 	<div class="layui-row">
 		<div class="magb15 layui-col-md4 layui-col-xs12">
 			<label class="layui-form-label">性别</label>
-			<div class="layui-input-block userSex">
+			<div class="layui-input-block sex">
 				<input type="radio" name="sex" value="男" title="男" checked>
 				<input type="radio" name="sex" value="女" title="女">
 			</div>
@@ -44,8 +45,9 @@
 			<label class="layui-form-label">用户组</label>
 			<div class="layui-input-block">
 				<select name="role" class="role" lay-filter="role">
-					<option value="0">教师</option>
-					<option value="1">管理员</option>
+					<option value="">请选择用户组...</option>
+					<option value="teacher">教师</option>
+					<option value="admin">管理员</option>
 				</select>
 			</div>
 		</div>
@@ -53,7 +55,7 @@
 	<div class="layui-form-item layui-row layui-col-xs12">
 		<label class="layui-form-label">用户简介</label>
 		<div class="layui-input-block">
-			<textarea placeholder="请输入用户简介" class="layui-textarea userDesc"></textarea>
+			<textarea placeholder="请输入用户简介" class="layui-textarea introduce"></textarea>
 		</div>
 	</div>
 	<div class="layui-form-item layui-row layui-col-xs12">
@@ -64,6 +66,50 @@
 	</div>
 </form>
 <script type="text/javascript" src="../../../layui/layui.js"></script>
-<script type="text/javascript" src="teacherAdd.js"></script>
+<script type="text/javascript">
+layui.use(['form','layer'],function(){
+    var form = layui.form
+        layer = parent.layer === undefined ? layui.layer : top.layer,
+        $ = layui.jquery;
+    
+    form.on("submit(addUser)",function(data){
+        //弹出loading
+        var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+        
+        // 实际使用时的提交信息
+        $.ajax({
+  		  url: '/page/user/teacher/submit',
+  		  data: {
+              id: $(".id").val(),
+         	  username : $(".username").val(),
+              name : $(".name").val(),
+              sex : data.field.sex,
+              role: data.field.role,
+              mailbox : $(".mailbox").val(),
+              introduce : $(".introduce").val()
+          },
+  		  dataType: 'json',
+  		  type: 'post',
+  		  success: function(ret){
+  			  console.log(ret);
+  			  if(ret.state=="ok"){
+         		 top.layer.msg("用户添加成功！");
+                 layer.closeAll("iframe");
+                 //刷新父页面
+                 parent.location.reload();
+  			  } else {
+  				  top.layer.msg("用户名重复！");
+  			  }
+  		  },
+  	  	  error: function(){
+  	  		top.layer.msg("用户添加失败！");
+  			  }
+  	  });
+        return false;
+    });
+    
+});
+
+</script>
 </body>
 </html>

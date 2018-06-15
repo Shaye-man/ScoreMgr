@@ -8,7 +8,7 @@ layui.use(['form','layer','table','laytpl'],function(){
     //用户列表
     var tableIns = table.render({
         elem: '#teacherList',
-        url : '../../../json/userList.json',
+        url : '/page/user/teacher/list',
         cellMinWidth : 95,
         page : true,
         height : "full-125",
@@ -17,41 +17,41 @@ layui.use(['form','layer','table','laytpl'],function(){
         id : "teacherListTable",
         cols : [[
             {type: "checkbox", fixed:"left", width:50},
-            {field: 'userName', title: '用户名', minWidth:100, align:"center"},
-            {field: 'userEmail', title: '用户邮箱', minWidth:200, align:'center',templet:function(d){
-                return '<a class="layui-blue" href="mailto:'+d.userEmail+'">'+d.userEmail+'</a>';
+            {field: 'id', title: 'ID', width:60, align:"center"},
+            {field: 'username', title: '用户名', width:120, align:"center"},
+            {field: 'name', title: '姓名', width:110,align:'center'},
+
+            {field: 'sex', title: '性别', align:'center',width:60,templet:function(d){
+            	if(d.sex == "M") return "男";
+            	else if(d.sex == "F") return "女";
+            	else return "保密";
             }},
-            {field: 'userSex', title: '用户性别', align:'center'},
-            {field: 'userStatus', title: '用户状态',  align:'center',templet:function(d){
-                return d.userStatus == "0" ? "正常使用" : "限制使用";
-            }},
-            {field: 'userGrade', title: '用户等级', align:'center',templet:function(d){
-                if(d.userGrade == "0"){
-                    return "注册会员";
-                }else if(d.userGrade == "1"){
-                    return "中级会员";
-                }else if(d.userGrade == "2"){
-                    return "高级会员";
-                }else if(d.userGrade == "3"){
-                    return "钻石会员";
-                }else if(d.userGrade == "4"){
-                    return "超级会员";
+            {field: 'role', title: '用户组', width:80,align:'center',templet:function(d){
+                if(d.role == "teacher"){
+                    return '<span class="layui-blue">教师</span>'
+                }else{
+                    return '<span class="layui-red">管理员</span>'
                 }
             }},
-            {field: 'userEndTime', title: '最后登录时间', align:'center',minWidth:150},
-            {title: '操作', minWidth:175, templet:'#userListBar',fixed:"right",align:"center"}
+            {field: 'phone', title: '手机',  align:'center',maxWidth:110},
+            {field: 'introduce', title: '简介', align:'center',maxWidth:150},
+            {field: 'mailbox', title: '用户邮箱', minWidth:200, align:'center',templet:function(d){
+                return '<a class="layui-blue" href="mailto:'+d.mailbox+'">'+d.mailbox+'</a>';
+            }},
+            {field: 'createtime', title: '注册时间', align:'center',minWidth:150},
+            {title: '操作', minWidth:175, templet:'#teacherListBar',fixed:"right",align:"center"}
         ]]
     });
 
     //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
     $(".search_btn").on("click",function(){
         if($(".searchVal").val() != ''){
-            table.reload("newsListTable",{
+            table.reload("teacherListTable",{
                 page: {
                     curr: 1 //重新从第 1 页开始
                 },
                 where: {
-                    key: $(".searchVal").val()  //搜索的关键字
+                    keywords: $(".searchVal").val()  //搜索的关键字
                 }
             })
         }else{
@@ -68,12 +68,13 @@ layui.use(['form','layer','table','laytpl'],function(){
             success : function(layero, index){
                 var body = layui.layer.getChildFrame('body', index);
                 if(edit){
-                    body.find(".userName").val(edit.userName);  //登录名
-                    body.find(".userEmail").val(edit.userEmail);  //邮箱
-                    body.find(".userSex input[value="+edit.userSex+"]").prop("checked","checked");  //性别
-                    body.find(".userGrade").val(edit.userGrade);  //会员等级
-                    body.find(".userStatus").val(edit.userStatus);    //用户状态
-                    body.find(".userDesc").text(edit.userDesc);    //用户简介
+                	body.find(".id").val(edit.id);
+                    body.find(".username").val(edit.username);  
+                    body.find(".name").val(edit.name);  
+                    body.find(".sex input[value="+edit.sex+"]").prop("checked","checked"); 
+                    body.find(".mailbox").val(edit.mailbox);  
+                    body.find(".introduce").val(edit.introduce);    
+                    body.find(".role").val(edit.role);    
                     form.render();
                 }
                 setTimeout(function(){
@@ -94,22 +95,29 @@ layui.use(['form','layer','table','laytpl'],function(){
         addUser();
     })
 
-    //批量删除
+       //批量删除
     $(".delAll_btn").click(function(){
-        var checkStatus = table.checkStatus('userListTable'),
-            data = checkStatus.data,
-            newsId = [];
+        var checkStatus = table.checkStatus('teacherListTable'),
+            data = checkStatus.data;
+
         if(data.length > 0) {
-            for (var i in data) {
-                newsId.push(data[i].newsId);
-            }
+            var ids = "";
+        	for(var i=0; i<data.length; i++){
+        		ids += data[i].id+",";
+        	}
+        	ids=ids.substring(0, ids.length-1);
             layer.confirm('确定删除选中的用户？', {icon: 3, title: '提示信息'}, function (index) {
-                // $.get("删除文章接口",{
-                //     newsId : newsId  //将需要删除的newsId作为参数传入
-                // },function(data){
-                tableIns.reload();
-                layer.close(index);
-                // })
+                 $.get("/page/user/teacher/batchRemove",{
+                     ids : ids  
+                 },function(responseM){
+                	if(responseM.code == 0){
+                        layer.msg("用户删除成功！");
+    	                tableIns.reload();
+    	                layer.close(index);
+                	}else{
+                		 layer.msg("用户删除失败！");
+                	}
+                 })
             })
         }else{
             layer.msg("请选择需要删除的用户");
@@ -117,7 +125,7 @@ layui.use(['form','layer','table','laytpl'],function(){
     })
 
     //列表操作
-    table.on('tool(userList)', function(obj){
+    table.on('tool(teacherList)', function(obj){
         var layEvent = obj.event,
             data = obj.data;
 
@@ -145,14 +153,19 @@ layui.use(['form','layer','table','laytpl'],function(){
             });
         }else if(layEvent === 'del'){ //删除
             layer.confirm('确定删除此用户？',{icon:3, title:'提示信息'},function(index){
-                // $.get("删除文章接口",{
-                //     newsId : data.newsId  //将需要删除的newsId作为参数传入
-                // },function(data){
-                    tableIns.reload();
-                    layer.close(index);
-                // })
-            });
-        }
+                $.get("/page/user/teacher/delete",{
+                    id : data.id  //将需要删除的newsId作为参数传入
+                },function(ret){
+               	if(ret.state == "ok"){
+                       tableIns.reload();
+                       layer.msg("用户删除成功！");
+                       layer.close(index);
+               	}else{
+               		layer.msg("用户删除失败！");
+               	}
+                })
+           });
+       }
     });
 
 })
