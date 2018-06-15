@@ -116,7 +116,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         } 
         else if(layEvent === 'del'){ //删除
             layer.confirm('确定删除此班级？',{icon:3, title:'提示信息'},function(index){
-                 $.get("/page/course/delete",{
+                 $.get("/page/clazz/delete",{
                      id : data.id  //将需要删除的newsId作为参数传入
                  },function(ret){
                 	if(ret.state == "ok"){
