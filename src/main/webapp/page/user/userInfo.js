@@ -65,11 +65,6 @@ layui.use(['form','layer','upload','laydate',"address"],function(){
             'userEmail' : $(".userEmail").val(),
             'myself' : $(".myself").val()
         };
-        for(key in data.field){
-            if(key.indexOf("like") != -1){
-                userInfoHtml[key] = "on";
-            }
-        }
         window.sessionStorage.setItem("userInfo",JSON.stringify(userInfoHtml));
         setTimeout(function(){
             layer.close(index);

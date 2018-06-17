@@ -5,6 +5,16 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         laytpl = layui.laytpl,
         table = layui.table;
 
+    permissionCtrl();
+    
+    function permissionCtrl(){
+    	var role = window.sessionStorage.getItem("ROLE");
+    	if(role == "student"){
+    		$(".addNews_btn").addClass("layui-hide");
+    		$(".delAll_btn").addClass("layui-hide");
+    	}
+    }
+    
     //新闻列表
     var tableIns = table.render({
         elem: '#newsList',
@@ -108,24 +118,38 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
     table.on('tool(newsList)', function(obj){
         var layEvent = obj.event,
             data = obj.data;
+        
+    	var role = window.sessionStorage.getItem("ROLE");
+    	var permit = true;
+    	if(role == "student"){
+    		permit = false;	
+    	}
 
         if(layEvent === 'edit'){ //编辑
-            addNews(data);
+        	if(permit){
+        		addNews(data);
+        	}else{
+        		layer.msg("你无权进行此操作！");
+        	}
         } 
         else if(layEvent === 'del'){ //删除
-            layer.confirm('确定删除此公告？',{icon:3, title:'提示信息'},function(index){
-                $.get("/page/news/delete",{
-                    id : data.id
-                },function(ret){
-               	if(ret.state == "ok"){
-                       layer.msg("公告删除成功！");
-                       tableIns.reload();
-                       layer.close(index);
-               	}else{
-               		layer.msg("公告删除失败！");
-               	}
-                })
-           });
+        	if(permit){
+                layer.confirm('确定删除此公告？',{icon:3, title:'提示信息'},function(index){
+                    $.get("/page/news/delete",{
+                        id : data.id
+                    },function(ret){
+                   	if(ret.state == "ok"){
+                           layer.msg("公告删除成功！");
+                           tableIns.reload();
+                           layer.close(index);
+                   	}else{
+                   		layer.msg("公告删除失败！");
+                   	}
+                    })
+               });
+        	}else{
+        		layer.msg("你无权进行此操作！");
+        	}
        }
     });
 

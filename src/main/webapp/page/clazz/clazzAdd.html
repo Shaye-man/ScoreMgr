@@ -132,7 +132,7 @@ layui.use(['form','layer'],function(){
         var academy = $(".academy").val();
         var major = $(".major").val();
         var num = $(".num").val();
-        var text = grade+"-"+academy+"-"+major+"-"+num+"-"+"班";
+        var text = grade+academy+major+"（"+num+"）"+"班";
         document.getElementById("name").value = text;        
     });
 
@@ -141,7 +141,7 @@ layui.use(['form','layer'],function(){
         var academy = $(".academy").val();
         var major = $(".major").val();
         var num = $(".num").val();
-        var text = grade+"-"+academy+"-"+major+"-"+num+"-"+"班";
+        var text = grade+academy+major+"（"+num+"）"+"班";
         document.getElementById("name").value = text; 
     });
     

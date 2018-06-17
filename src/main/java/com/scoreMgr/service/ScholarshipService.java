@@ -45,9 +45,7 @@ public class ScholarshipService {
 	private Ret create(Scholarship scholarship, String rank) {
 		scholarship.setCreatetime(new Date());
 		Scholarship sch =dao.findFirst("select id from scholarship where rank='"+rank+"'");
-		System.out.println("hah ---  1");
 		if(sch != null){
-			System.out.println("hah ---  2");
 			return Ret.fail();
 		} else {
 			scholarship.save();

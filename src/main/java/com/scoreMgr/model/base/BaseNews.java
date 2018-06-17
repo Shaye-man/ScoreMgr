@@ -54,13 +54,13 @@ public abstract class BaseNews<M extends BaseNews<M>> extends Model<M> implement
 		return getStr("content");
 	}
 
-	public M setCreateTime(java.util.Date createTime) {
-		set("createTime", createTime);
+	public M setCreatetime(java.util.Date createtime) {
+		set("createtime", createtime);
 		return (M)this;
 	}
 	
-	public java.util.Date getCreateTime() {
-		return get("createTime");
+	public java.util.Date getCreatetime() {
+		return get("createtime");
 	}
 
 }

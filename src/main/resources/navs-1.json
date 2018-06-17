@@ -1,0 +1,60 @@
+{
+	"contentManagement": [
+		{
+			"title": "公告列表",
+			"icon": "&#xe667;",
+			"href": "page/news/newsList.html",
+			"spread": false
+		},
+		{
+			"title": "课程查询",
+			"icon": "&#xe629;",
+			"href": "page/course/courseList.html",
+			"spread": false
+		},
+		{
+			"title": "成绩查询",
+			"icon": "&#xe656;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "成绩统计管理",
+					"icon": "&#xe609;",
+					"href": "page/score/scoreInfoList.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "奖学金查询",
+			"icon": "&#xe705;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "奖学金统计查询",
+					"icon": "&#xe609;",
+					"href": "page/scholarship/scholarshipInfoList.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "其他页面",
+			"icon": "&#xe630;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "404页面",
+					"icon": "&#xe61c;",
+					"href": "page/404.html",
+					"spread": false
+				}
+			]
+		}
+	]
+}
+
+

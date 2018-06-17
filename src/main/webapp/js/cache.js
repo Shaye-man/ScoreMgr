@@ -65,7 +65,7 @@ layui.use(['form','jquery',"layer"],function() {
             type : 1,
             content : '<div class="admin-header-lock" id="lock-box">'+
                             '<div class="admin-header-lock-img"><img src="images/face.jpg" class="userAvatar"/></div>'+
-                            '<div class="admin-header-lock-name" id="lockUserName">驊驊龔頾</div>'+
+                            '<div class="admin-header-lock-name" id="lockUserName">NAME</div>'+
                             '<div class="input_btn">'+
                                 '<input type="password" class="admin-header-lock-input layui-input" autocomplete="off" placeholder="请输入密码解锁.." name="lockPwd" id="lockPwd" />'+
                                 '<button class="layui-btn" id="unlock">解锁</button>'+
@@ -79,6 +79,10 @@ layui.use(['form','jquery',"layer"],function() {
                 if(window.sessionStorage.getItem('userFace') &&  $(".userAvatar").length > 0){
                     $(".userAvatar").attr("src",$(".userAvatar").attr("src").split("images/")[0] + "images/" + window.sessionStorage.getItem('userFace').split("images/")[1]);
                 }
+            	if(window.sessionStorage.getItem("NAME") != ""){
+            		var NAME = window.sessionStorage.getItem("NAME");
+            		$("#lockUserName").text(NAME);
+            	}
             }
         })
         $(".admin-header-lock-input").focus();

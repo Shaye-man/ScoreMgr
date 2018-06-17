@@ -8,11 +8,6 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
 
     //添加验证规则
     form.verify({
-        oldPwd : function(value, item){
-            if(value != "123456"){
-                return "密码错误，请重新输入！";
-            }
-        },
         newPwd : function(value, item){
             if(value.length < 6){
                 return "密码长度不能小于6位";
@@ -63,15 +58,41 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         });
     });
 
-        //修改密码
-    form.on("submit(changePwd)",function(data){
-        var index = layer.msg('提交中，请稍候',{icon: 16,time:false,shade:0.8});
-        setTimeout(function(){
-            layer.close(index);
-            layer.msg("密码修改成功！");
-            $(".pwd").val('');
-        },2000);
-        return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+    //初始修改密码表单
+	if(window.sessionStorage.getItem("NAME") != ""){
+		$("#id").val(window.sessionStorage.getItem("USER_ID"));
+		$(".userName").val(window.sessionStorage.getItem("NAME"));
+	}
+	
+    //修改密码
+	form.on("submit(changePwd)",function(data){
+        //弹出loading
+        var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+        
+        // 实际使用时的提交信息
+        $.ajax({
+  		  url: '/page/mainIndex/changePwd',
+  		  data: {
+              id: $("#id").val(),
+         	  oldPwd : $(".oldPwd").val(),
+              newPwd : $(".newPwd").val(),
+              confirmPwd : $(".confirmPwd").val()
+          },
+  		  dataType: 'json',
+  		  type: 'post',
+  		  success: function(responseM){
+  			  if(responseM.flag){
+         		 top.layer.msg(responseM.msg);
+         		 form.render();
+  			  } else {
+  				  top.layer.msg(responseM.msg);
+  			  }
+  		  },
+  	  	  error: function(){
+  	  		top.layer.msg("密码修改失败！");
+  			  }
+  	  });
+        return false;
     });
     
     //新增等级

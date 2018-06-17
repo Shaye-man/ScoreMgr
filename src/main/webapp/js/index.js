@@ -11,9 +11,39 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
     	layer = parent.layer === undefined ? layui.layer : top.layer;
 		tab = layui.bodyTab({
 			openTabNum : "50",  //最大可打开窗口数量
-			url : "json/navs.json" //获取菜单json地址
+			url : "/page/mainIndex/navCtrl" //获取菜单json地址
 		});
+	
+	getTopMenu();
 
+	//获取顶部菜单
+	function getTopMenu(){
+		var html = '';
+		if(window.sessionStorage.getItem("ROLE") == "student"){
+			html += '<li class="layui-nav-item layui-this" data-menu="contentManagement">'
+				  + '<a href="javascript:;"><i class="layui-icon" data-icon="&#xe63c;">&#xe63c;</i><cite>内容管理</cite></a>'
+				  + '</li>';
+		}
+		else if(window.sessionStorage.getItem("ROLE") == "teacher"){
+			html += '<li class="layui-nav-item layui-this" data-menu="contentManagement">'
+				  + '<a href="javascript:;"><i class="layui-icon" data-icon="&#xe63c;">&#xe63c;</i><cite>内容管理</cite></a>'
+				  + '</li>';
+		}
+		else if(window.sessionStorage.getItem("ROLE") == "admin"){
+			html += '<li class="layui-nav-item layui-this" data-menu="contentManagement">'
+				  + '<a href="javascript:;"><i class="layui-icon" data-icon="&#xe63c;">&#xe63c;</i><cite>内容管理</cite></a>'
+				  + '</li>'
+				  + '<li class="layui-nav-item" data-menu="memberCenter" pc>'
+				  + '<a href="javascript:;"><i class="seraph icon-icon10" data-icon="icon-icon10"></i><cite>用户中心</cite></a>'
+				  + '</li>'
+				  + '<li class="layui-nav-item" data-menu="systemeSttings" pc>'
+			      + '<a href="javascript:;"><i class="layui-icon" data-icon="&#xe620;">&#xe620;</i><cite>系统设置</cite></a>'
+		          + '</li>'
+		}
+		$(".topLevelMenus").append(html);
+	}
+
+		
 	//通过顶部菜单获取左侧二三级菜单   注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
 	function getData(json){
 		$.getJSON(tab.tabConfig.url,function(data){
@@ -36,6 +66,7 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
             }
 		})
 	}
+	
 	//页面加载时判断左侧菜单是否显示
 	//通过顶部菜单获取左侧菜单
 	$(".topLevelMenus li,.mobileTopLevelMenus dd").click(function(){
@@ -85,12 +116,12 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
 
 	//清除缓存
 	$(".clearCache").click(function(){
-		window.sessionStorage.clear();
-        window.localStorage.clear();
+//		window.sessionStorage.clear();
+//        window.localStorage.clear();
         var index = layer.msg('清除缓存中，请稍候',{icon: 16,time:false,shade:0.8});
         setTimeout(function(){
             layer.close(index);
-            layer.msg("缓存清除成功！");
+            layer.msg("缓存清除成功...其实是骗你的，功能尚在研发，还得努力肝！");
         },1000);
     })
 
@@ -134,7 +165,12 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
 		window.sessionStorage.removeItem("menu");
 		window.sessionStorage.removeItem("curmenu");
 	}
-})
+	
+	//初始用户名
+	if(window.sessionStorage.getItem("NAME") != ""){
+		$(".userName").text(window.sessionStorage.getItem("NAME"));
+	}
+});
 
 //打开新窗口
 function addTab(_this){

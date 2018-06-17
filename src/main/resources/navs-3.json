@@ -2,7 +2,7 @@
 	"contentManagement": [
 		{
 			"title": "公告列表",
-			"icon": "icon-text",
+			"icon": "&#xe667;",
 			"href": "page/news/newsList.html",
 			"spread": false
 		},
@@ -20,7 +20,7 @@
 		},
 		{
 			"title": "成绩管理",
-			"icon": "&#xe630;",
+			"icon": "&#xe656;",
 			"href": "",
 			"spread": false,
 			"children": [
@@ -40,7 +40,7 @@
 		},
 		{
 			"title": "奖学金管理",
-			"icon": "&#xe630;",
+			"icon": "&#xe705;",
 			"href": "",
 			"spread": false,
 			"children": [
@@ -69,13 +69,6 @@
 					"icon": "&#xe61c;",
 					"href": "page/404.html",
 					"spread": false
-				},
-				{
-					"title": "登录",
-					"icon": "&#xe609;",
-					"href": "page/login/login.html",
-					"spread": false,
-					"target": "_blank"
 				}
 			]
 		}
@@ -85,12 +78,6 @@
 			"title": "学生管理",
 			"icon": "&#xe612;",
 			"href": "page/user/userList.html",
-			"spread": false
-		},
-		{
-			"title": "会员等级",
-			"icon": "icon-vip",
-			"href": "page/user/userGrade.html",
 			"spread": false
 		},
 		{
@@ -120,24 +107,6 @@
 			"title": "图标管理",
 			"icon": "&#xe857;",
 			"href": "page/systemSetting/icons.html",
-			"spread": false
-		}
-	],
-	"seraphApi": [
-		{
-			"title": "三级联动模块",
-			"icon": "icon-mokuai",
-			"href": "page/doc/addressDoc.html",
-			"spread": false
-		},{
-			"title": "bodyTab模块",
-			"icon": "icon-mokuai",
-			"href": "page/doc/bodyTabDoc.html",
-			"spread": false
-		},{
-			"title": "三级菜单",
-			"icon": "icon-mokuai",
-			"href": "page/doc/navDoc.html",
 			"spread": false
 		}
 	]

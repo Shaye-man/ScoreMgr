@@ -45,9 +45,7 @@ public class TeacherService {
 		teacher.setPassword(new Md5Utils().getMD5("123456"));
 		teacher.setCreatetime(new Date());
 		Teacher tea =dao.findFirst("select id from teacher where username='"+username+"'");
-		System.out.println("hah ---  1");
 		if(tea != null){
-			System.out.println("hah ---  2");
 			return Ret.fail();
 		} else {
 			teacher.save();

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>班级列表</title>
+	<title>奖学金统计</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -22,22 +22,14 @@
 				</div>
 				<a class="layui-btn search_btn" data-type="reload">搜索</a>
 			</div>
-			<div class="layui-inline">
-				<a class="layui-btn layui-btn-normal addClazz_btn">添加班级</a>
-			</div>
-			<div class="layui-inline">
-				<a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
-			</div>
 		</form>
 	</blockquote>
-	<table id="clazzList" lay-filter="clazzList"></table>
-	<!--操作-->
-	<script type="text/html" id="clazzListBar">
-		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+	<table id="scholarshipInfoList" lay-filter="scholarshipInfoList"></table>
+	<script type="text/html" id="scholarshipInfoListBar">
+		<input type="checkbox" name="gradeStatus" lay-filter="gradeStatus" lay-skin="switch" lay-text="已发|未发" checked>
 	</script>
 </form>
 <script type="text/javascript" src="../../layui/layui.js"></script>
-<script type="text/javascript" src="clazzList.js"></script>
+<script type="text/javascript" src="scholarshipInfoList.js"></script>
 </body>
 </html>

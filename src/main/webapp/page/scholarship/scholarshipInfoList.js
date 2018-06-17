@@ -7,7 +7,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
 
     //新闻列表
     var tableIns = table.render({
-        elem: '#scholarshipList',
+        elem: '#scholarshipInfoList',
         url : '../../json/scholarshipList.json',
         cellMinWidth : 95,
         page : true,
@@ -17,15 +17,12 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         id : "scholarshipListTable",
         cols : [[
             {type: "checkbox", fixed:"left", width:50},
-            {field: 'id', title: 'ID', width:60, align:"center",sort:true},
-            {field: 'rank', title: '奖项', width:80,align:'center'},
+            {field: 'tid', title: '学号', width:150, align:"center",sort:true},
+            {field: 'tName', title: '姓名', width:120, align:"center",sort:true},
+            {field: 'rank', title: '奖项', width:100,align:'center'},
             {field: 'price', title: '金额', align:'center',width:80,sort:true},
-            {field: 'num', title: '数目', width:200,align:'center',sort:true},
-            {field: 'info', title: '备注', width:250,align:'center',sort:true},
-            {field: 'createTime', title: '发布时间', align:'center', minWidth:110, templet:function(d){
-                return d.createTime.substring(0,10);
-            }},
-            {title: '操作', width:170, templet:'#scholarshipListBar',fixed:"right",align:"center"}
+            {field: 'clazzName', title: '班级', width:200,align:'center',sort:true},
+            {title: '操作', width:120, templet:'#scholarshipInfoListBar',fixed:"right",align:"center"}
         ]]
     });
 
@@ -44,62 +41,6 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             layer.msg("请输入搜索的内容");
         }
     });
-
-    //添加文章
-    function addscholarship(edit){
-        var index = layui.layer.open({
-            title : "添加班级",
-            type : 2,
-            content : "scholarshipAdd.html",
-            success : function(layero, index){
-                var body = layui.layer.getChildFrame('body', index);
-                if(edit){
-                    body.find(".name").val(edit.name);
-                    body.find(".grade").val(edit.grade);
-                    body.find(".academy").val(edit.academy);
-                    body.find(".major").val(edit.major);
-                    body.find(".num").val(edit.num);
-                    form.render();
-                }
-                setTimeout(function(){
-                    layui.layer.tips('点击此处返回班级列表', '.layui-layer-setwin .layui-layer-close', {
-                        tips: 3
-                    });
-                },500)
-            }
-        })
-        layui.layer.full(index);
-        //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-        $(window).on("resize",function(){
-            layui.layer.full(index);
-        })
-    }
-    $(".addscholarship_btn").click(function(){
-        addscholarship();
-        console.log("data.elem");
-    })
-
-    //批量删除
-    $(".delAll_btn").click(function(){
-        var checkStatus = table.checkStatus('newsListTable'),
-            data = checkStatus.data,
-            newsId = [];
-        if(data.length > 0) {
-            for (var i in data) {
-                newsId.push(data[i].newsId);
-            }
-            layer.confirm('确定删除选中的班级？', {icon: 3, title: '提示信息'}, function (index) {
-                // $.get("删除文章接口",{
-                //     newsId : newsId  //将需要删除的newsId作为参数传入
-                // },function(data){
-                tableIns.reload();
-                layer.close(index);
-                // })
-            })
-        }else{
-            layer.msg("请选择需要删除的班级");
-        }
-    })
 
     //列表操作
     table.on('tool(scholarshipList)', function(obj){

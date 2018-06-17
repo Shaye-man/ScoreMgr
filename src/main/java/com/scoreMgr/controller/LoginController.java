@@ -18,6 +18,10 @@ public class LoginController extends BaseController{
 	public void doLogin(){
 		boolean flag = false;
 		String msg = "";
+		int USER_ID = 0;
+		String NAME = "";
+		String ROLE = "";
+		
 		Map<String, Object> responseM = new HashMap<String, Object>();
 		String username = getPara("userName");
 		String password = getPara("password");
@@ -38,6 +42,9 @@ public class LoginController extends BaseController{
         		setSessionAttr("username", teacher.getUsername());
         		setSessionAttr("name", teacher.getName());
         		setSessionAttr("role",teacher.getRole());
+        		USER_ID = teacher.getId();
+        		NAME = teacher.getName();
+        		ROLE = teacher.getRole();
         		flag = true;
         	} else {
         		msg = "密码输入错误！";
@@ -52,6 +59,9 @@ public class LoginController extends BaseController{
             		setSessionAttr("username", student.getUsername());
             		setSessionAttr("name", student.getName());
             		setSessionAttr("role","student");
+            		USER_ID = student.getId();
+            		NAME = student.getName();
+            		ROLE = "student";
         			flag = true;
         		} else {
         			msg = "密码输入错误！";
@@ -62,6 +72,9 @@ public class LoginController extends BaseController{
         }
         responseM.put("flag", flag);
         responseM.put("msg", msg);
+        responseM.put("USER_ID", USER_ID);
+        responseM.put("NAME", NAME);
+        responseM.put("ROLE", ROLE);
         renderJson(responseM);
 	}
 

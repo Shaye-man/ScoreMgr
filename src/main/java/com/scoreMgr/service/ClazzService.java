@@ -45,9 +45,7 @@ public class ClazzService {
 	private Ret create(Clazz clazz, String name) {
 		clazz.setCreateTime(new Date());
 		Clazz cla =dao.findFirst("select id from clazz where name='"+name+"'");
-		System.out.println("hah ---  1");
 		if(cla != null){
-			System.out.println("hah ---  2");
 			return Ret.fail();
 		} else {
 			clazz.save();

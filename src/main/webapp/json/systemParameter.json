@@ -1,14 +1,14 @@
 {
-	"cmsName": "layuiCMS后台管理模版",
-	"version": "v2.0",
-	"author": "驊驊龔頾",
+	"cmsName": "成绩管理系统",
+	"version": "v1.0",
+	"author": "江双耀",
 	"homePage": "index.html",
-	"server": "windows",
-	"dataBase": "8.00.2039",
+	"server": "Ubuntu 16.04",
+	"dataBase": "Mysql 5.6",
 	"maxUpload": "2M",
 	"userRights": "超级管理员",
-	"description": "这是马哥闲来无事做的一套基于layui的cms模版，纯静态页面，不包含数据库",
-	"powerby": "copyright @2017 驊驊龔頾",
+	"description": "本来是想水一水课设的。奈何队友不给力，做的太烂又对不起自己程序猿这一称号。只有撸起袖子努力干了。",
+	"powerby": "2018 © shaye license",
 	"record": "京ICP备14040xxx号-1",
-	"keywords": "layuicms,马哥,layuicms2.0,后台模版,请叫我马哥,驊驊龔頾"
+	"keywords": "帅哥，型男，程序猿，码农"
 }

@@ -45,9 +45,7 @@ public class NewsService {
 	private Ret create(News news, String title) {
 		news.setCreatetime(new Date());
 		News ne =dao.findFirst("select id from news where title='"+title+"'");
-		System.out.println("hah ---  1");
 		if(ne != null){
-			System.out.println("hah ---  2");
 			return Ret.fail();
 		} else {
 			news.save();

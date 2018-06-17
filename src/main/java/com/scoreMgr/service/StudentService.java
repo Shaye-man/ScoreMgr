@@ -75,9 +75,7 @@ public class StudentService {
 		student.setPassword(new Md5Utils().getMD5("123456"));
 		student.setCreatetime(new Date());
 		Student stu =dao.findFirst("select id from student where username='"+username+"'");
-		System.out.println("hah ---  1");
 		if(stu != null){
-			System.out.println("hah ---  2");
 			return Ret.fail();
 		} else {
 			student.save();

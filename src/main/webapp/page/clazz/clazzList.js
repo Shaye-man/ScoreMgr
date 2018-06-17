@@ -4,7 +4,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         $ = layui.jquery,
         laytpl = layui.laytpl,
         table = layui.table;
-
+    
     //新闻列表
     var tableIns = table.render({
         elem: '#clazzList',

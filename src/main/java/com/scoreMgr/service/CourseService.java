@@ -23,21 +23,22 @@ public class CourseService {
 			Student stu = Student.dao.findFirst("select clazzid from student where id = ?",id);
 			int clazzID = stu.getClazzid();
 			if(sb.length() > 0){
-				sb.insert(0, "from clazz,course,teacher where clazz.id = course.clazzid = "+clazzID+" and teacher.username = course.tid");
+				sb.insert(0, "from clazz,course,teacher "
+						+ "where clazz.id = course.clazzid and teacher.username = course.tid and clazz.id = "+clazzID);
 				sb.append(" order by course.id desc");
 			} else {
 				sb.append("from clazz,course,teacher");
-				sb.append(" where clazz.id = course.clazzid = "+clazzID+" and teacher.id = course.tid");
+				sb.append(" where clazz.id = course.clazzid and teacher.id = course.tid and clazz.id = "+clazzID);
 				sb.append(" order by course.id desc");
 			}
 		}
 		else if(role == "teacher" || role.equals("teacher")){
 			if(sb.length() > 0){
-				sb.insert(0, "from clazz,course,teacher where clazz.id = course.clazzid and teacher.id = course.tid = "+id+"");
+				sb.insert(0, "from clazz,course,teacher where clazz.id = course.clazzid and teacher.id = course.tid and teacher.id = "+id);
 				sb.append(" order by course.id desc");
 			} else {
 				sb.append("from clazz,course,teacher");
-				sb.append(" where clazz.id = course.clazzid and teacher.id = course.tid = "+id+"");
+				sb.append(" where clazz.id = course.clazzid and teacher.id = course.tid and teacher.id = "+id);
 				sb.append(" order by course.id desc");
 			}
 		}

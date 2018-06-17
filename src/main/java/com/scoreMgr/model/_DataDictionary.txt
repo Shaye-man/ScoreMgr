@@ -36,7 +36,7 @@ Table: news
  author     | VARCHAR(50)  | NO   |     |                     | 作者      
  abstract   | VARCHAR(150) | YES  |     |                     | 概要      
  content    | TEXT(65535)  | YES  |     |                     | 内容      
- createTime | DATETIME(19) | NO   |     | 0000-00-00 00:00:00 |         
+ createtime | DATETIME(19) | NO   |     | 0000-00-00 00:00:00 |         
 ------------+--------------+------+-----+---------------------+---------
 
 Table: scholarship

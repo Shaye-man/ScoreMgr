@@ -5,6 +5,16 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         laytpl = layui.laytpl,
         table = layui.table;
 
+    permissionCtrl();
+    
+    function permissionCtrl(){
+    	var role = window.sessionStorage.getItem("ROLE");
+    	if(role == "student" || role == "teacher"){
+    		$(".addCourse_btn").addClass("layui-hide");
+    		$(".delAll_btn").addClass("layui-hide");
+    	}
+    }
+    
     //新闻列表
     var tableIns = table.render({
         elem: '#courseList',
@@ -116,24 +126,38 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
     table.on('tool(courseList)', function(obj){
         var layEvent = obj.event,
             data = obj.data;
+        
+    	var role = window.sessionStorage.getItem("ROLE");
+    	var permit = true;
+    	if(role == "student" || role == "teacher"){
+    		permit = false;
+    	}
 
         if(layEvent === 'edit'){ //编辑
-            addCourse(data);
+        	if(permit)
+        		addCourse(data);
+        	else 
+        		layer.msg("你无权进行此操作。");
         } 
         else if(layEvent === 'del'){ //删除
-            layer.confirm('确定删除此课程？',{icon:3, title:'提示信息'},function(index){
-                 $.get("/page/course/delete",{
-                     id : data.id  //将需要删除的newsId作为参数传入
-                 },function(ret){
-                	if(ret.state == "ok"){
-                        layer.msg("课程删除成功！");
-                        layer.close(index);
-                        tableIns.reload();
-                	}else{
-                		layer.msg("课程删除失败！");
-                	}
-                 })
-            });
+        	if(permit){
+                layer.confirm('确定删除此课程？',{icon:3, title:'提示信息'},function(index){
+                    $.get("/page/course/delete",{
+                        id : data.id  //将需要删除的newsId作为参数传入
+                    },function(ret){
+                   	if(ret.state == "ok"){
+                           layer.msg("课程删除成功！");
+                           layer.close(index);
+                           tableIns.reload();
+                   	}else{
+                   		layer.msg("课程删除失败！");
+                   	}
+                    })
+               });
+        	}else{
+        		layer.msg("你无权进行此操作。");
+        	}
+
         }
     });
 

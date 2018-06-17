@@ -17,12 +17,13 @@ Table: course
 ------------+--------------+------+-----+---------+---------
  id         | INT(10)      | NO   | PRI |         |         
  name       | VARCHAR(20)  | NO   |     |         | 课程名称    
- pno        | INT(10)      | YES  |     |         | 先修课     
+ pname      | VARCHAR(20)  | YES  |     |         | 先修课     
  credit     | SMALLINT(5)  | NO   |     |         | 学分      
  clazzhour  | SMALLINT(5)  | NO   |     |         | 课时      
  address    | VARCHAR(255) | YES  |     |         | 上课地点    
  info       | VARCHAR(255) | YES  |     |         | 课程信息    
- t_username | INT(10)      | NO   |     |         | 教师号（教师用户名）
+ tid        | INT(10)      | NO   |     |         | 教师号（教师用户名）
+ createtime | DATETIME(19) | NO   |     |         |         
  clazzid    | INT(10)      | NO   |     |         | 班级id    
 ------------+--------------+------+-----+---------+---------
 
@@ -35,7 +36,7 @@ Table: news
  author     | VARCHAR(50)  | NO   |     |                     | 作者      
  abstract   | VARCHAR(150) | YES  |     |                     | 概要      
  content    | TEXT(65535)  | YES  |     |                     | 内容      
- createTime | DATETIME(19) | NO   |     | 0000-00-00 00:00:00 |         
+ createtime | DATETIME(19) | NO   |     | 0000-00-00 00:00:00 |         
 ------------+--------------+------+-----+---------------------+---------
 
 Table: scholarship
@@ -66,7 +67,7 @@ Table: student
 ------------+--------------+------+-----+---------+---------
  id         | INT(10)      | NO   | PRI |         |         
  username   | VARCHAR(10)  | NO   |     |         | 学号      
- password   | VARCHAR(20)  | NO   |     |         | 密码      
+ password   | VARCHAR(50)  | NO   |     |         | 密码      
  name       | VARCHAR(20)  | NO   |     |         | 名字      
  clazzid    | INT(10)      | NO   |     |         | 班级id    
  sex        | CHAR(1)      | NO   |     |         | 性别 ，'M' male ,'F' female
