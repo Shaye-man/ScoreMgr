@@ -120,9 +120,17 @@ layui.use(['form','jquery',"layer"],function() {
 
     //退出
     $(".signOut").click(function(){
-        window.sessionStorage.removeItem("menu");
-        menu = [];
-        window.sessionStorage.removeItem("curmenu");
+    	
+        $.get('/page/mainIndex/logOut').done(function(success){
+        	if(success){
+                window.sessionStorage.removeItem("menu");
+                menu = [];
+                window.sessionStorage.removeItem("curmenu");
+                window.location.href = "/";
+        	}else{
+        		layer.msg("系统出现未知错误，请重新尝试或强制关闭网页退出。");
+        	}
+        })
     })
 
     //功能设定

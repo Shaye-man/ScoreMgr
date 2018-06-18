@@ -4,7 +4,9 @@ import java.util.Date;
 
 import com.jfinal.kit.Ret;
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import com.scoreMgr.model.Scholarship;
 
 public class ScholarshipService {
@@ -34,6 +36,11 @@ public class ScholarshipService {
 			sb.append(" order by scholarship.id desc");
 		}
 		return dao.paginate(page, limit, "select id,rank,price,num,info,createTime",sb.toString());
+	}
+	
+	public Page<Record> paginateScore(int page,int limit){
+		String sql = Db.getSql("countScore");
+		return Db.paginate(page, limit,sql,"");
 	}
 	
 	/**

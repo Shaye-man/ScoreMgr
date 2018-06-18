@@ -1,8 +1,8 @@
 package com.scoreMgr.service;
 
 import java.util.Date;
+import java.util.List;
 
-import com.scoreMgr.model.Clazz;
 import com.scoreMgr.model.Score;
 
 import com.jfinal.kit.Ret;
@@ -210,6 +210,42 @@ public class ScoreService {
 				+ "clazz.`name` AS clazzName,SUM(score) AS totalScore,"
 				+ "FORMAT(AVG(score), 2) AS averageScore,MIN(score) AS minScore,"
 				+ "MAX(score) AS highScore",sb.toString());
+	}
+	
+	public List<Record> paginateCourse(String username,String role,int tid){
+		StringBuilder sb = new StringBuilder();
+		if(role.equals("student")){
+			sb.append("SELECT "
+					+ "course.`name` AS name,SUM(score) AS value "
+					+ "FROM "
+					+ "score,course "
+					+ "WHERE "
+					+ "score.cid = course.id AND score.sid = "+username
+					+ " GROUP BY "
+					+ "course.id");
+		}
+		else if(role.equals("teacher")){
+			sb.append("SELECT "
+					+ "course.`name` AS name,SUM(score) AS value "
+					+ "FROM "
+					+ "score,course "
+					+ "WHERE "
+					+ "score.cid = course.id AND course.tid = "+tid
+					+ " GROUP BY "
+					+ "course.id");
+		}
+		else{
+			sb.append("SELECT "
+					+ "course.`name` AS name,SUM(score) AS value "
+					+ "FROM "
+					+ "score,course "
+					+ "WHERE "
+					+ "score.cid = course.id "
+					+ "GROUP BY "
+					+ "course.id");
+		}
+
+		return Db.find(sb.toString());
 	}
 	
 	/**

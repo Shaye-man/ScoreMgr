@@ -63,6 +63,15 @@ public class ScoreController extends BaseController {
 		 renderJson();
 	}
 	
+	public void courseScoreList(){
+		 String role = getSessionAttr("role","admin");
+		 String sid = getSessionAttr("username","3116001371");
+		 String tid = getSessionAttr("ID","2");
+		 List<Record> records = service.paginateCourse(sid, role,Integer.parseInt(tid));
+		 setAttr("data", records);
+		 renderJson();
+	}
+	
 	/**
 	 * 跳转至form界面
 	 */

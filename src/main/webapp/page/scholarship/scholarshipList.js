@@ -19,7 +19,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             {field: 'id', title: 'ID', width:60, align:"center",sort:true},
             {field: 'rank', title: '奖项', width:180,align:'center'},
             {field: 'price', title: '金额', width:150, align:'center',sort:true},
-            {field: 'num', title: '数目', width:150,align:'center',sort:true},
+            {field: 'num', title: '百分比', width:150,align:'center'},
             {field: 'info', title: '备注', width:350,align:'center',templet:function(d){
                 if (d.info === "") {
                     return "无";

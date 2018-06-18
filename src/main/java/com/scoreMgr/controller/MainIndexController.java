@@ -1,17 +1,11 @@
 package com.scoreMgr.controller;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.jetty.util.ajax.JSON;
-
-import com.jfinal.json.FastJson;
-import com.jfinal.json.FastJsonFactory;
-import com.jfinal.json.Json;
 import com.jfinal.kit.Ret;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
@@ -146,5 +140,21 @@ public class MainIndexController extends BaseController {
             System.err.println("无法加载nav文件...");
         }
         renderJson(json);
+	}
+
+	/**
+	 * 退出系统
+	 */
+	public void logOut() {
+		removeSessionAttr("ID");
+		removeSessionAttr("username");
+		removeSessionAttr("name");
+		removeSessionAttr("role");
+		boolean success = false;
+		if(getSessionAttr("role") == null){
+			success = true;
+		}
+		setAttr("success", success);
+		renderJson();
 	}
 }

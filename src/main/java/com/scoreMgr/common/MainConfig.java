@@ -50,7 +50,7 @@ public class MainConfig extends JFinalConfig {
 			// 配置ActiveRecord插件
 			ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
 			arp.setBaseSqlTemplatePath(PathKit.getRootClassPath());
-//			arp.addSqlTemplate("demo.sql");
+			arp.addSqlTemplate("scholarship.sql");
 			me.add(arp);
 			arp.setShowSql(true);
 			_MappingKit.mapping(arp);

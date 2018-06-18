@@ -36,13 +36,13 @@ public abstract class BaseScholarship<M extends BaseScholarship<M>> extends Mode
 		return getInt("price");
 	}
 
-	public M setNum(java.lang.Integer num) {
+	public M setNum(java.lang.Float num) {
 		set("num", num);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getNum() {
-		return getInt("num");
+	public java.lang.Float getNum() {
+		return getFloat("num");
 	}
 
 	public M setInfo(java.lang.String info) {

@@ -104,62 +104,46 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
     var scoreChart = echarts.init(document.getElementById('scoreLine'));
     var clazzChart = echarts.init(document.getElementById('clazzLine'));
 
-    // 指定图表的配置项和数据
-    var scoreOption = {
-        title: {
-            text: 'ECharts 入门示例'
-        },
-        tooltip: {},
-        legend: {
-            data:['销量']
-        },
-        xAxis: {
-            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-        },
-        yAxis: {},
-        series: [{
-            name: '销量',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-        }]
-    };
-
-
-option = {
-    tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'shadow'
-        }
-    },
-    legend: {
-        data: ['16自动化电气工程（1）班', '16自动化物联网（3）班']
-    },
-    grid: {
-        left: '3%',
-        right: '4%',
-        bottom: '3%',
-        containLabel: true
-    },
-    xAxis: {
-        type: 'value',
-        boundaryGap: [0, 0.01]
-    },
-    yAxis: {
-        type: 'category',
-        data: ['总分','平均分','最高分','最低分']
-    },
-    series: [{
-		name: '16自动化电气工程（1）班',
-		type: 'bar',
-		data: [248, 82.67, 92, 68]
-    	}, 
-		{
-		name: '16自动化物联网（3）班',
-		type: 'bar',
-		data: [391, 78.20, 98, 46]
-	}]
-};
+    $.get('/page/score/courseScoreList').done(function (data) {
+    	var data = data.data;
+    	
+    	var names = [];
+    	for(var i=0; i<data.length;i++){
+    		names.push(data[i].name);
+    	}
+    	scoreChart.setOption({
+    	    title : {
+    	        text: '课程成绩统计',
+    	        subtext: '单门课程与所有课程成绩的占比',
+    	        x:'center'
+    	    },
+    	    tooltip : {
+    	        trigger: 'item',
+    	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    	    },
+    	    legend: {
+    	        orient: 'vertical',
+    	        bottom: 'bottom',
+    	        data: names
+    	    },
+    	    series : [
+    	        {
+    	            name: '课程总成绩',
+    	            type: 'pie',
+    	            radius : '55%',
+    	            center: ['50%', '50%'],
+    	            data: data,
+    	            itemStyle: {
+    	                emphasis: {
+    	                    shadowBlur: 10,
+    	                    shadowOffsetX: 0,
+    	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+    	                }
+    	            }
+    	        }
+    	    ]
+    	});
+    });
     
     $.get('/page/score/clazzScoreList').done(function (data) {
     	var	clazzNames = "";
@@ -209,6 +193,4 @@ option = {
 		});
     });
     
-    // 使用刚指定的配置项和数据显示图表。
-    scoreChart.setOption(scoreOption);
 })

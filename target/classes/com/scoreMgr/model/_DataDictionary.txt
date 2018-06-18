@@ -46,7 +46,7 @@ Table: scholarship
  id         | INT(10)      | NO   | PRI |         |         
  rank       | VARCHAR(20)  | NO   |     |         | 奖学金等级   
  price      | INT(10)      | NO   |     |         | 奖学金金额   
- num        | INT(10)      | NO   |     |         | 奖学金数目   
+ num        | FLOAT(12)    | NO   |     |         | 奖学金数目   
  info       | VARCHAR(50)  | YES  |     |         | 备注      
  createtime | DATETIME(19) | NO   |     |         | 注册时间    
 ------------+--------------+------+-----+---------+---------
