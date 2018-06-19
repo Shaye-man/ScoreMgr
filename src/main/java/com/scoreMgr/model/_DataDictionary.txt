@@ -71,8 +71,9 @@ Table: student
  name       | VARCHAR(20)  | NO   |     |         | 名字      
  clazzid    | INT(10)      | NO   |     |         | 班级id    
  sex        | CHAR(1)      | NO   |     |         | 性别 ，'M' male ,'F' female
+ birthday   | DATE(10)     | YES  |     |         |         
  phone      | VARCHAR(11)  | YES  |     |         | 手机号码    
- adress     | VARCHAR(255) | YES  |     |         | 地址      
+ address    | VARCHAR(255) | YES  |     |         | 地址      
  icon       | VARCHAR(255) | YES  |     |         | 头像      
  mailbox    | VARCHAR(20)  | YES  |     |         | 邮箱      
  introduce  | VARCHAR(512) | YES  |     |         | 自我介绍    
@@ -89,8 +90,9 @@ Table: teacher
  name       | VARCHAR(20)  | NO   |     |         | 名字      
  sex        | CHAR(1)      | NO   |     |         | 性别，'M' male ,'F' female
  role       | VARCHAR(10)  | NO   |     |         | 权限，admin, teacher
+ birthday   | DATE(10)     | YES  |     |         |         
  phone      | VARCHAR(11)  | YES  |     |         | 手机号码    
- adress     | VARCHAR(255) | YES  |     |         | 地址      
+ address    | VARCHAR(255) | YES  |     |         | 地址      
  icon       | VARCHAR(255) | YES  |     |         | 用户头像    
  mailbox    | VARCHAR(20)  | YES  |     |         | 邮箱      
  introduce  | VARCHAR(512) | YES  |     |         | 自我介绍    

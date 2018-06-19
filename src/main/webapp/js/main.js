@@ -75,17 +75,24 @@ layui.use(['form','element','layer','jquery','carousel'],function(){
     }
 
     //最新文章列表
-//    $.get("../json/newsList.json",function(data){
-//        var hotNewsHtml = '';
-//        for(var i=0;i<5;i++){
-//            hotNewsHtml += '<tr>'
-//                +'<td align="left"><a href="javascript:;"> '+data.data[i].title+'</a></td>'
-//                +'<td>'+data.data[i].createTime.substring(0,10)+'</td>'
-//                +'</tr>';
-//        }
-//        $(".hot_news").html(hotNewsHtml);
-//    });
-    
+   $.get("/page/mainIndex/showNews",function(data){
+       var hotNewsHtml = '';
+       for(var i=0;i<data.length;i++){
+           hotNewsHtml += '<div class="layui-card" style="background-color:#fff;"">'
+                        + '<div class="layui-card-header"><span style="color:#FF6666;">'+data[i].title+'</span>'
+                        + '<span style="float:right;">'+data[i].createtime.substring(0,10)+'</span></div>'
+                        + '<div class="layui-card-body" style="text-indent:2em;">'+data[i].content+'</div>'
+                        + '</div>';
+       }
+       $(".newsContent").html(hotNewsHtml);
+        //改变下时间间隔、动画类型、高度
+        carousel.render({
+            elem: '#newsCarousel'
+            ,interval: 3000
+            ,height: '200'
+            ,width: '100%'
+        });
+   });
 
     //用户数量
     $.get("../json/userList.json",function(data){

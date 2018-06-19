@@ -4,11 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import com.jfinal.kit.Ret;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
 import com.scoreMgr.model.Student;
 import com.scoreMgr.model.Teacher;
 import com.scoreMgr.utils.Md5Utils;
@@ -153,6 +154,56 @@ public class MainIndexController extends BaseController {
 		boolean success = false;
 		if(getSessionAttr("role") == null){
 			success = true;
+		}
+		setAttr("success", success);
+		renderJson();
+	}
+
+	public void showNews() {
+		List<Record> records = Db.find("SELECT * FROM news");
+		renderJson(records);
+	}
+	
+	public void getUserInfo(){
+		String role = getSessionAttr("role","admin");
+		String sql = "";
+		if(role.equals("student")){
+			sql = "SELECT * FROM student";
+			Record record = Db.findFirst(sql);
+			record.set("role", "student");
+			renderJson(record);
+		}else{
+			sql = "SELECT * FROM teacher";
+			Record record = Db.findFirst(sql);
+			renderJson(record);
+		}
+	}
+	
+	public void updateUserInfo(){
+		String role = getSessionAttr("role","admin");
+		String username = getPara("userName");
+		String sex = getPara("sex");
+		String phone = getPara("phone");
+		String address = getPara("address");
+		String birthday = getPara("birthday");
+		String mailBox = getPara("mailBox");
+		String introduce = getPara("introduce");
+		String sql = "";
+		boolean success = false;
+		if(role.equals("student")){
+			sql = "UPDATE student SET sex=?,phone=?,address=?,birthday=?,mailbox=?,introduce=? where username=?";
+			int flag = Db.update(sql,sex,phone,address,birthday,mailBox,introduce,username);
+			System.out.println(flag);
+			if(flag == 0){
+				success = true;
+			}
+		}else{
+			sql = "UPDATE teacher SET sex=?,phone=?,address=?,birthday=?,mailbox=?,introduce=? where username=?";
+			int flag = Db.update(sql,sex,phone,address,birthday,mailBox,introduce,username);
+			System.out.println(flag);
+			if(flag == 0){
+				success = true;
+			}
 		}
 		setAttr("success", success);
 		renderJson();

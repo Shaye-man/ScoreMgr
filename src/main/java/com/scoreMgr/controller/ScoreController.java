@@ -22,7 +22,7 @@ public class ScoreController extends BaseController {
 		 Integer limit = getParaToInt("limit");
 		 String keywords = getPara("keywords");
 		 String role = getSessionAttr("role","admin");
-		 String sid = getSessionAttr("ID");
+		 String sid = getSessionAttr("ID","1");
 		 Page<Record> pageData = service.paginate(page, limit, keywords, role,Integer.parseInt(sid));
 		 
 		 setAttr("code",0);

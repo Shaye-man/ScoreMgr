@@ -1,16 +1,26 @@
-var form, $,areaData;
-layui.config({
-    base : "../../js/"
-}).extend({
-    "address" : "address"
-})
-layui.use(['form','layer','upload','laydate',"address"],function(){
+layui.use(['form','layer','upload','laydate'],function(){
     form = layui.form;
     $ = layui.jquery;
     var layer = parent.layer === undefined ? layui.layer : top.layer,
         upload = layui.upload,
-        laydate = layui.laydate,
-        address = layui.address;
+        laydate = layui.laydate;
+
+
+    //个人信息初始化
+    $.get('/page/mainIndex/getUserInfo').done(function(data){
+        $("#userName").val(data.username);  
+        $("#role").val(data.role);  
+        $("#name").val(data.name); 
+        $("#sex input[value="+data.sex+"]").prop("checked","checked");
+        $("#phone").val(data.phone);
+        $("#address").val(data.address);    
+        $("#birthday").val(data.birthday.substring(0,10));  
+        $("#createTime").val(data.createtime);   
+        $("#mailbox").val(data.mailbox);  
+        $("#introduce").val(data.introduce);   
+        form.render();    
+    });
+
 
     //上传头像
     upload.render({
@@ -34,7 +44,7 @@ layui.use(['form','layer','upload','laydate',"address"],function(){
     })
     //选择出生日期
     laydate.render({
-        elem: '.userBirthday',
+        elem: '#birthday',
         format: 'yyyy-MM-dd',
         trigger: 'click',
         max : 0,
@@ -46,30 +56,37 @@ layui.use(['form','layer','upload','laydate',"address"],function(){
         }
     });
 
-    //获取省信息
-    address.provinces();
-
     //提交个人资料
     form.on("submit(changeUser)",function(data){
         var index = layer.msg('提交中，请稍候',{icon: 16,time:false,shade:0.8});
-        //将填写的用户信息存到session以便下次调取
-        var key,userInfoHtml = '';
-        userInfoHtml = {
-            'realName' : $(".realName").val(),
-            'sex' : data.field.sex,
-            'userPhone' : $(".userPhone").val(),
-            'userBirthday' : $(".userBirthday").val(),
-            'province' : data.field.province,
-            'city' : data.field.city,
-            'area' : data.field.area,
-            'userEmail' : $(".userEmail").val(),
-            'myself' : $(".myself").val()
-        };
-        window.sessionStorage.setItem("userInfo",JSON.stringify(userInfoHtml));
-        setTimeout(function(){
-            layer.close(index);
-            layer.msg("提交成功！");
-        },2000);
+        // 实际使用时的提交信息
+        $.ajax({
+          url: '/page/mainIndex/updateUserInfo',
+          data: {
+              userName: $("#userName").val(),
+              sex : data.field.sex,
+              phone : $("#phone").val(),
+              address : $("#address").val(),
+              birthday : $("#birthday").val(),
+              mailBox : $("#mailBox").val(),
+              introduce : $("#introduce").val(),
+          },
+          dataType: 'json',
+          type: 'post',
+          success: function(success){
+              if(success){
+                 layer.msg("信息修改成功！");
+                 form.render();
+              } else {
+                  layer.msg("信息修改失败！");
+              }
+          },
+          error: function(){
+            layer.msg("信息修改失败！");
+            }
+        });
         return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-    })
+    });
+    
+
 })

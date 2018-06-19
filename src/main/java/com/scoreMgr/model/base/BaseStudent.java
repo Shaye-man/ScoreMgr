@@ -63,6 +63,15 @@ public abstract class BaseStudent<M extends BaseStudent<M>> extends Model<M> imp
 		return getStr("sex");
 	}
 
+	public M setBirthday(java.util.Date birthday) {
+		set("birthday", birthday);
+		return (M)this;
+	}
+	
+	public java.util.Date getBirthday() {
+		return get("birthday");
+	}
+
 	public M setPhone(java.lang.String phone) {
 		set("phone", phone);
 		return (M)this;
@@ -72,13 +81,13 @@ public abstract class BaseStudent<M extends BaseStudent<M>> extends Model<M> imp
 		return getStr("phone");
 	}
 
-	public M setAdress(java.lang.String adress) {
-		set("adress", adress);
+	public M setAddress(java.lang.String address) {
+		set("address", address);
 		return (M)this;
 	}
 	
-	public java.lang.String getAdress() {
-		return getStr("adress");
+	public java.lang.String getAddress() {
+		return getStr("address");
 	}
 
 	public M setIcon(java.lang.String icon) {

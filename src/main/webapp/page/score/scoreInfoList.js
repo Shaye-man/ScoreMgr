@@ -75,7 +75,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
             ]]
         });
 
-    //搜索区域
+    //工具栏区域
     $(".searchAll_btn").on("click",function(){
         table.reload("scoreListTable",{
             page: {
@@ -86,6 +86,14 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
                 keywords: $(".searchAllVal").val()  //搜索的关键字
             }
         })
+    });
+    
+    $(".fail_btn").on("click",function(){
+        layer.msg("时间不允许，功能未开发...");
+    });
+    
+    $(".highScore_btn").on("click",function(){
+        layer.msg("时间不允许，功能未开发...");
     });
     
     $(".searchClazz_btn").on("click",function(){

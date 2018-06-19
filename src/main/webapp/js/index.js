@@ -121,7 +121,7 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
         var index = layer.msg('清除缓存中，请稍候',{icon: 16,time:false,shade:0.8});
         setTimeout(function(){
             layer.close(index);
-            layer.msg("缓存清除成功...其实是骗你的，功能尚在研发，还得努力肝！");
+            layer.msg("缓存清除成功...");
         },1000);
     })
 
