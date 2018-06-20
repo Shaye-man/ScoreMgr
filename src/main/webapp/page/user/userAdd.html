@@ -70,6 +70,18 @@ layui.use(['form','layer'],function(){
     var form = layui.form
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery;
+    
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+        
+    var path = getRootPath();
+    
     InitForm();
     
     form.on("submit(addUser)",function(data){
@@ -78,7 +90,7 @@ layui.use(['form','layer'],function(){
         
         // 实际使用时的提交信息
         $.ajax({
-  		  url: '/page/user/submit',
+  		  url: path+'/page/user/submit',
   		  data: {
               id: $(".id").val(),
          	  username : $(".username").val(),
@@ -112,7 +124,7 @@ layui.use(['form','layer'],function(){
     function InitForm(){
     	$.ajax({
     		type: 'post',
-    		url: '/page/user/form',
+    		url: path+'/page/user/form',
     		dataType: 'json',
     		success: function(data){
     			if(data.length > 0){

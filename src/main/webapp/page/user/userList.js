@@ -5,10 +5,21 @@ layui.use(['form','layer','table','laytpl'],function(){
         laytpl = layui.laytpl,
         table = layui.table;
 
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+        
+    var path = getRootPath();
+    
     //用户列表
     var tableIns = table.render({
         elem: '#userList',
-        url : '/page/user/list',
+        url : path+'/page/user/list',
         cellMinWidth : 95,
         page : true,
         height : "full-125",
@@ -42,7 +53,7 @@ layui.use(['form','layer','table','laytpl'],function(){
                 curr: 1 //重新从第 1 页开始
             },
             where: {
-            	url: '/page/user/list',
+            	url: path+'/page/user/list',
                 keywords: $(".searchVal").val()  //搜索的关键字
             }
         });
@@ -96,7 +107,7 @@ layui.use(['form','layer','table','laytpl'],function(){
         	}
         	ids=ids.substring(0, ids.length-1);
             layer.confirm('确定删除选中的用户？', {icon: 3, title: '提示信息'}, function (index) {
-                 $.get("/page/user/batchRemove",{
+                 $.get(path+"/page/user/batchRemove",{
                      ids : ids  //将需要删除的newsId作为参数传入
                  },function(responseM){
                 	if(responseM.code == 0){
@@ -142,7 +153,7 @@ layui.use(['form','layer','table','laytpl'],function(){
             });
         }else if(layEvent === 'del'){ //删除
             layer.confirm('确定删除此用户？',{icon:3, title:'提示信息'},function(index){
-                 $.get("/page/user/delete",{
+                 $.get(path+"/page/user/delete",{
                      id : data.id  //将需要删除的newsId作为参数传入
                  },function(ret){
                 	if(ret.state == "ok"){

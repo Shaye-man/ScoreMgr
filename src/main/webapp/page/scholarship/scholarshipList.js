@@ -5,9 +5,20 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         laytpl = layui.laytpl,
         table = layui.table;
 
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+        
+    var path = getRootPath();
+    
     table.render({
         elem: '#scholarshipList',
-        url : '/page/scholarship/list',
+        url : path+'/page/scholarship/list',
         cellMinWidth : 95,
         page : true,
         height : "full-125",
@@ -41,7 +52,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
                 curr: 1 //重新从第 1 页开始
             },
             where: {
-            	url: '/page/scholarship/list',
+            	url: path+'/page/scholarship/list',
                 keywords: $(".searchVal").val()  //搜索的关键字
             }
         })
@@ -88,7 +99,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         	}
         	ids=ids.substring(0, ids.length-1);
             layer.confirm('确定删除选中的奖项？', {icon: 3, title: '提示信息'}, function (index) {
-                 $.get("/page/scholarship/batchRemove",{
+                 $.get(path+"/page/scholarship/batchRemove",{
                      ids : ids  
                  },function(responseM){
                 	if(responseM.code == 0){
@@ -115,7 +126,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         } 
         else if(layEvent === 'del'){ //删除
             layer.confirm('确定删除此奖项？',{icon:3, title:'提示信息'},function(index){
-                $.get("/page/scholarship/delete",{
+                $.get(path+"/page/scholarship/delete",{
                     id : data.id
                 },function(ret){
                	if(ret.state == "ok"){

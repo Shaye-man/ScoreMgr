@@ -9,13 +9,13 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="icon" href="../../favicon.ico">
-	<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
-	<link rel="stylesheet" href="../../css/public.css" media="all" />
+	<link rel="icon" href="#(CONTEXT_PATH)/favicon.ico">
+	<link rel="stylesheet" href="#(CONTEXT_PATH)/layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="#(CONTEXT_PATH)/css/public.css" media="all" />
 </head>
 <body class="loginBody">
 	<form class="layui-form" id="loginForm">
-		<div class="login_face"><img src="../../images/face.jpg" class="userAvatar"></div>
+		<div class="login_face"><img src="#(CONTEXT_PATH)/images/face.jpg" class="userAvatar"></div>
 		<div class="layui-form-item input-item">
 			<label for="userName">用户名</label>
 			<input type="text" placeholder="请输入用户名" autocomplete="off" id="userName" class="layui-input" lay-verify="required">
@@ -36,7 +36,7 @@
 			<p style="text-align: center;">2018 © shaye license</p>
 		</div>
 	</form>
-	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript" src="#(CONTEXT_PATH)/layui/layui.js"></script>
 	<script type="text/javascript">
 	function changeCode(){
 		document.getElementById("codeImg").src = "createImage?v=" + new Date().getTime();
@@ -62,7 +62,7 @@
 		    				  window.sessionStorage.setItem("USER_ID",responseM.USER_ID);
 		    				  window.sessionStorage.setItem("NAME",responseM.NAME);
 		    				  window.sessionStorage.setItem("ROLE",responseM.ROLE);
-		    				  window.location.href = "/index.html";
+		    				  window.location.href = "#(CONTEXT_PATH)/index.html";
 		    			  } else {
 		    				  layer.msg(responseM.msg,{icon: 2,time:1000},function(){
 		    					  $("#login").text("登录").removeAttr("disabled").removeClass("layui-disabled");

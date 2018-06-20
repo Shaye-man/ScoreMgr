@@ -5,6 +5,17 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         laytpl = layui.laytpl,
         table = layui.table;
 
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+        
+    var path = getRootPath();
+    
     permissionCtrl();
     
     function permissionCtrl(){
@@ -18,7 +29,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
     //新闻列表
     var tableIns = table.render({
         elem: '#newsList',
-        url : '/page/news/list',
+        url : path+'/page/news/list',
         cellMinWidth : 95,
         page : true,
         height : "full-125",
@@ -46,7 +57,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
                 curr: 1 //重新从第 1 页开始
             },
             where: {
-            	url: '/page/news/list',
+            	url: path+'/page/news/list',
                 keywords: $(".searchVal").val()  //搜索的关键字
             }
         })
@@ -97,7 +108,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         	}
         	ids=ids.substring(0, ids.length-1);
             layer.confirm('确定删除选中的公告？', {icon: 3, title: '提示信息'}, function (index) {
-                 $.get("/page/news/batchRemove",{
+                 $.get(path+"/page/news/batchRemove",{
                      ids : ids  //将需要删除的newsId作为参数传入
                  },function(responseM){
                 	if(responseM.code == 0){
@@ -135,7 +146,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         else if(layEvent === 'del'){ //删除
         	if(permit){
                 layer.confirm('确定删除此公告？',{icon:3, title:'提示信息'},function(index){
-                    $.get("/page/news/delete",{
+                    $.get(path+"/page/news/delete",{
                         id : data.id
                     },function(ret){
                    	if(ret.state == "ok"){

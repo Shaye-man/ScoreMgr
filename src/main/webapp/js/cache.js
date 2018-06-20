@@ -5,6 +5,17 @@ layui.use(['form','jquery',"layer"],function() {
         $ = layui.jquery,
         layer = parent.layer === undefined ? layui.layer : top.layer;
 
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+    
+    var path = getRootPath();
+    
     //判断是否web端打开
     if(!/http(s*):\/\//.test(location.href)){
         layer.alert("请先将项目部署到 localhost 下再进行访问【建议通过tomcat、webstorm、hb等方式运行，不建议通过iis方式运行】，否则部分数据将无法显示");
@@ -19,7 +30,7 @@ layui.use(['form','jquery',"layer"],function() {
         $("#userFace").attr("src",window.sessionStorage.getItem('userFace'));
         $(".userAvatar").attr("src",$(".userAvatar").attr("src").split("images/")[0] + "images/" + window.sessionStorage.getItem('userFace').split("images/")[1]);
     }else{
-        $("#userFace").attr("src","../../images/face.jpg");
+        $("#userFace").attr("src",path+"/images/face.jpg");
     }
 
     
@@ -127,12 +138,12 @@ layui.use(['form','jquery',"layer"],function() {
     //退出
     $(".signOut").click(function(){
     	
-        $.get('/page/mainIndex/logOut').done(function(success){
+        $.get(path+'/page/mainIndex/logOut').done(function(success){
         	if(success){
                 window.sessionStorage.removeItem("menu");
                 menu = [];
                 window.sessionStorage.removeItem("curmenu");
-                window.location.href = "/";
+                window.location.href = path+"/";
         	}else{
         		layer.msg("系统出现未知错误，请重新尝试或强制关闭网页退出。");
         	}

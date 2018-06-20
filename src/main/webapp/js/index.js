@@ -9,12 +9,26 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
 		element = layui.element;
 		$ = layui.$;
     	layer = parent.layer === undefined ? layui.layer : top.layer;
-		tab = layui.bodyTab({
-			openTabNum : "50",  //最大可打开窗口数量
-			url : "/page/mainIndex/navCtrl" //获取菜单json地址
-		});
+		
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+        
+    var path = getRootPath();
+    	
+    	
+	tab = layui.bodyTab({
+		openTabNum : "50",  //最大可打开窗口数量
+		url : path+"/page/mainIndex/navCtrl" //获取菜单json地址
+	});
 	
 	getTopMenu();
+	
 
 	//获取顶部菜单
 	function getTopMenu(){
@@ -179,7 +193,7 @@ function addTab(_this){
 
 //图片管理弹窗
 function showImg(){
-    $.getJSON('json/images.json', function(json){
+    $.getJSON(path+'json/images.json', function(json){
         var res = json;
         layer.photos({
             photos: res,

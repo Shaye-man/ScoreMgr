@@ -1,3 +1,14 @@
+function getRootPath(){  
+    var curPath=window.document.location.href;  
+    var pathName=window.document.location.pathname;  
+    var pos=curPath.indexOf(pathName);  
+    var localhostPaht=curPath.substring(0,pos);  
+    var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+    return localhostPaht+projectName;
+}
+    
+var path = getRootPath();
+
 //获取系统时间
 var newDate = '';
 getLangDate();
@@ -47,7 +58,7 @@ layui.use(['form','element','layer','jquery','carousel'],function(){
         fillParameter(systemParameter);
     }else{
         $.ajax({
-            url : "../json/systemParameter.json",
+            url : path+"/json/systemParameter.json",
             type : "get",
             dataType : "json",
             success : function(data){
@@ -75,7 +86,7 @@ layui.use(['form','element','layer','jquery','carousel'],function(){
     }
 
     //最新文章列表
-   $.get("/page/mainIndex/showNews",function(data){
+   $.get(path+"/page/mainIndex/showNews",function(data){
        var hotNewsHtml = '';
        for(var i=0;i<data.length;i++){
            hotNewsHtml += '<div class="layui-card" style="background-color:#fff;"">'
@@ -95,9 +106,9 @@ layui.use(['form','element','layer','jquery','carousel'],function(){
    });
 
     //用户数量
-    $.get("../json/userList.json",function(data){
-        $(".userAll span").text(data.count);
-    })
+//    $.get("../json/userList.json",function(data){
+//        $(".userAll span").text(data.count);
+//    })
 
     //外部图标
     $.get(iconUrl,function(data){

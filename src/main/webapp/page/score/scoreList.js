@@ -5,10 +5,21 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         laytpl = layui.laytpl,
         table = layui.table;
 
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+        
+    var path = getRootPath();
+    
     //新闻列表
     var tableIns = table.render({
         elem: '#scoreList',
-        url : '/page/score/list',
+        url : path+'/page/score/list',
         cellMinWidth : 95,
         page : true,
         height : "full-125",
@@ -45,7 +56,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
                 curr: 1 //重新从第 1 页开始
             },
             where: {
-            	url: '/page/score/list',
+            	url: path+'/page/score/list',
                 keywords: $(".searchVal").val()  //搜索的关键字
             }
         });
@@ -60,7 +71,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         function(value,index,obj){
             //这里一般是发送修改的Ajax请求
             $.ajax({
-        		  url: '/page/score/submit',
+        		  url: path+'/page/score/submit',
         		  data: {
         			  sId : data.sId,
         			  cId : data.cId,

@@ -4,6 +4,17 @@ layui.use(['form','layer','jquery'],function(){
 		laypage = layui.laypage,
 		$ = layui.jquery;
 
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+        
+    var path = getRootPath();
+	
  	var systemParameter;
  	form.on("submit(systemParameter)",function(data){
  		systemParameter = '{"cmsName":"'+$(".cmsName").val()+'",';  //模版名称
@@ -35,7 +46,7 @@ layui.use(['form','layer','jquery'],function(){
  		fillData(data);
  	}else{
  		$.ajax({
-			url : "../../json/systemParameter.json",
+			url : path+"/json/systemParameter.json",
 			type : "get",
 			dataType : "json",
 			success : function(data){

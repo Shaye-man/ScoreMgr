@@ -24,7 +24,7 @@ public class MainConfig extends JFinalConfig {
 		
   		public void configConstant(Constants me) {
 			me.setViewType(ViewType.JFINAL_TEMPLATE);
-			me.setDevMode(true);
+//			me.setDevMode(true);
 			PropKit.use("config.properties");
 			
 		}
@@ -52,7 +52,7 @@ public class MainConfig extends JFinalConfig {
 			arp.setBaseSqlTemplatePath(PathKit.getRootClassPath());
 			arp.addSqlTemplate("scholarship.sql");
 			me.add(arp);
-			arp.setShowSql(true);
+//			arp.setShowSql(true);
 			_MappingKit.mapping(arp);
 			
 			// 配置缓存插件

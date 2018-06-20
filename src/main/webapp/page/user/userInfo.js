@@ -5,9 +5,19 @@ layui.use(['form','layer','upload','laydate'],function(){
         upload = layui.upload,
         laydate = layui.laydate;
 
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+        
+    var path = getRootPath();
 
     //个人信息初始化
-    $.get('/page/mainIndex/getUserInfo').done(function(data){
+    $.get(path+'/page/mainIndex/getUserInfo').done(function(data){
         $("#userName").val(data.username);  
         $("#role").val(data.role);  
         $("#name").val(data.name); 
@@ -25,7 +35,7 @@ layui.use(['form','layer','upload','laydate'],function(){
     //上传头像
     upload.render({
         elem: '.userFaceBtn',
-        url: '../../json/userface.json',
+        url: path+'/json/userface.json',
         method : "get",  //此处是为了演示之用，实际使用中请将此删除，默认用post方式提交
         done: function(res, index, upload){
             var num = parseInt(4*Math.random());  //生成0-4的随机数，随机显示一个头像信息
@@ -61,7 +71,7 @@ layui.use(['form','layer','upload','laydate'],function(){
         var index = layer.msg('提交中，请稍候',{icon: 16,time:false,shade:0.8});
         // 实际使用时的提交信息
         $.ajax({
-          url: '/page/mainIndex/updateUserInfo',
+          url: path+'/page/mainIndex/updateUserInfo',
           data: {
               userName: $("#userName").val(),
               sex : data.field.sex,

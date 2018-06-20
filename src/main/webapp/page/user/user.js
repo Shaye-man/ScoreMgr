@@ -6,6 +6,17 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         laytpl = layui.laytpl,
         table = layui.table;
 
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+        
+    var path = getRootPath();
+    
     //添加验证规则
     form.verify({
         newPwd : function(value, item){
@@ -23,7 +34,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
     //用户等级
     table.render({
         elem: '#userGrade',
-        url : '../../json/userGrade.json',
+        url : path+'/json/userGrade.json',
         cellMinWidth : 95,
         cols : [[
             {field:"id", title: 'ID', width: 60, fixed:"left",sort:"true", align:'center', edit: 'text'},
@@ -71,7 +82,7 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         
         // 实际使用时的提交信息
         $.ajax({
-  		  url: '/page/mainIndex/changePwd',
+  		  url: path+'/page/mainIndex/changePwd',
   		  data: {
               id: $("#id").val(),
          	  oldPwd : $(".oldPwd").val(),

@@ -1,10 +1,21 @@
 layui.use(['table'],function(){
 	var table = layui.table;
 
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+        
+    var path = getRootPath();
+	
 	//系统日志
     table.render({
         elem: '#logs',
-        url : '../../json/logs.json',
+        url : path+'/json/logs.json',
         cellMinWidth : 95,
         page : true,
         height : "full-20",

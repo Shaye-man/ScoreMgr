@@ -6,10 +6,21 @@ layui.use(['form','layer','laydate','table','upload'],function(){
         upload = layui.upload,
         table = layui.table;
 
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+        
+    var path = getRootPath();
+    
     //友链列表
     var tableIns = table.render({
         elem: '#linkList',
-        url : '../../json/linkList.json',
+        url : path+'/json/linkList.json',
         page : true,
         cellMinWidth : 95,
         height : "full-104",
@@ -58,7 +69,7 @@ layui.use(['form','layer','laydate','table','upload'],function(){
             title : "添加友链",
             type : 2,
             area : ["300px","385px"],
-            content : "page/systemSetting/linksAdd.html",
+            content : path+"page/systemSetting/linksAdd.html",
             success : function(layero, index){
                 var body = $($(".layui-layer-iframe",parent.document).find("iframe")[0].contentWindow.document.body);
                 if(edit){
@@ -126,7 +137,7 @@ layui.use(['form','layer','laydate','table','upload'],function(){
     //上传logo
     upload.render({
         elem: '.linkLogo',
-        url: '../../json/linkLogo.json',
+        url: path+'/json/linkLogo.json',
         method : "get",  //此处是为了演示之用，实际使用中请将此删除，默认用post方式提交
         done: function(res, index, upload){
             var num = parseInt(4*Math.random());  //生成0-4的随机数，随机显示一个头像信息

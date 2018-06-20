@@ -82,6 +82,18 @@ layui.use(['form','layer'],function(){
     var form = layui.form
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery;
+    
+    function getRootPath(){  
+        var curPath=window.document.location.href;  
+        var pathName=window.document.location.pathname;  
+        var pos=curPath.indexOf(pathName);  
+        var localhostPaht=curPath.substring(0,pos);  
+        var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);  
+        return localhostPaht+projectName;
+    }
+        
+    var path = getRootPath();
+    
     InitForm();
     
     form.on("submit(addCourse)",function(data){
@@ -90,7 +102,7 @@ layui.use(['form','layer'],function(){
         
         // 实际使用时的提交信息
         $.ajax({
-  		  url: '/page/course/submit',
+  		  url: path+'/page/course/submit',
   		  data: {
               id: $("#id").val(),
          	  pname : $(".pname").val(),
@@ -125,7 +137,7 @@ layui.use(['form','layer'],function(){
     function InitForm(){
     	$.ajax({
     		type: 'post',
-    		url: '/page/course/form',
+    		url: path+'/page/course/form',
     		dataType: 'json',
     		success: function(responseM){
     			if(responseM.clazz.length > 0){
@@ -145,7 +157,6 @@ layui.use(['form','layer'],function(){
     				for(var i = 0;i < responseM.teacher.length; i++){
     					var name = responseM.teacher[i].name;
     					var value = responseM.teacher[i].id;
-    					console.log(i+"......."+value);
     					if(tName == name){
     						$(".tName").append('<option value="'+value+'" selected="">'+name+'</option>');
     					}else{

@@ -32,7 +32,7 @@ public class TeacherService {
 			sb.append("from teacher");
 			sb.append(" order by teacher.id desc");
 		}
-		return dao.paginate(page, limit, "select id,username,name,role,sex,phone,adress,mailbox,introduce,createtime",sb.toString());
+		return dao.paginate(page, limit, "select id,username,name,role,sex,phone,address,mailbox,introduce,createtime",sb.toString());
 	}
 	
 	/**
